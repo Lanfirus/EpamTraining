@@ -1,2 +1,2 @@
-# EpamTraining
+# Training
 Tasks from training
