@@ -30,6 +30,17 @@ public class Model {
         this.controller = controller;
     }
 
+    public void setNumberFromUser(int numberFromUser) {
+        this.numberFromUser = numberFromUser;
+    }
+
+    public String getIncorrectInput() {
+        return INCORRECT_INPUT;
+    }
+
+    /**
+     * Initializes Model by setting random number as a number to be guessed by user.
+     */
     public void initiateProgram() {
         numberToBeGuessed = rand();
         controller.onNewMessageToUser(INITIAL_RULES_MESSAGE);
@@ -54,37 +65,11 @@ public class Model {
     }
 
     /**
-     * Checks input from the user for correctness and then match it with Guessed number if
-     * input is correct. Otherwise returns message about incorrect input.
-     * @param guess
-     */
-    public void guessTry(String guess) {
-        if (guess == null || guess.contains(" ")) {
-            controller.onNewMessageToUser(String.format(INCORRECT_INPUT, guess));
-        }
-        else {
-            try {
-                numberFromUser = Integer.parseInt(guess);
-            } catch (NumberFormatException e) {
-                controller.onNewMessageToUser(String.format(INCORRECT_INPUT, guess));
-                return;
-            }
-
-            if (numberFromUser < lowBound || numberFromUser > highBound) {
-                controller.onNewMessageToUser(String.format(INCORRECT_INPUT, guess));
-            } else {
-                checkNumberFromUser(numberFromUser);
-            }
-        }
-
-    }
-
-    /**
      * Matches input from the user and Guessed number. Returns respective messages about
      * result of the matching.
      * @param number
      */
-    private void checkNumberFromUser(int number) {
+    private void matchNumberFromUser(int number) {
         if (number == numberToBeGuessed) {
             controller.onNewMessageToUser(CONGRATULATION + numberToBeGuessed);
             controller.onNewMessageToUser(PREVIOUS_ATTEMPTS_MESSAGE + printAttempts());
@@ -123,6 +108,18 @@ public class Model {
         StringBuilder attempts = new StringBuilder();
         allUserNumbers.stream().forEach(x -> attempts.append(x + " "));
         return attempts.toString();
+    }
+
+    /**
+     * Checks user input for being inside current boundaries and then match it
+     * with guessed number using another method.
+     */
+    public void CheckAndMatchNumberFromUser() {
+        if (numberFromUser < lowBound || numberFromUser > highBound) {
+            controller.onNewMessageToUser(String.format(INCORRECT_INPUT, numberFromUser));
+        } else {
+            matchNumberFromUser(numberFromUser);
+        }
     }
 
 }
