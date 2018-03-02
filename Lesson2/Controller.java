@@ -1,9 +1,15 @@
 package lesson2;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Controller {
 
     private View view;
     private Model model;
+    private boolean stopReading = false;
+    private final static String EXCEPTION_HANDLER_MESSAGE = "Something is wrong. Exception happens";
 
     public void setView(View view) {
         this.view = view;
@@ -19,12 +25,21 @@ public class Controller {
     }
 
     /**
-     * Starts program by pushing Model to initialize Guessed number and push View to start
+     * Starts program by pushing Model to initialize Guessed number and starts
      * reading user inputs from the console
      */
     public void startProgram() {
         model.initiateProgram();
-        view.readingFromConsole();
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            while (!stopReading) {
+                model.guessTry(reader.readLine());
+            }
+        }
+        catch (IOException e) {
+            System.out.println(EXCEPTION_HANDLER_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -36,18 +51,10 @@ public class Controller {
     }
 
     /**
-     * Pushes input from the user to the Model
-     * @param readString
-     */
-    public void onNewReadString(String readString) {
-        model.guessTry(readString);
-    }
-
-    /**
      * Stops program by initializing stopper for View
      */
     public void stopProgram() {
-        view.setStopReading(true);
+        stopReading = true;
     }
 
 }
