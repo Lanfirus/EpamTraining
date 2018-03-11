@@ -1,0 +1,75 @@
+package Lesson4.ua.training.model;
+
+import Lesson4.ua.training.controller.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Model to store data.
+ * Data is stored in List of Maps.
+ * Each map has the following structure (key : value):
+ *
+ * 0 : String subscriberSurname;
+ * 1 : String subscriberName;
+ * 2 : String subscriberPatronymic;
+ * 3 : String generatedInitials;
+ * 4 : String nickName;
+ * 5 : String comment;
+ * 6 : List<String> groups;
+ * 7 : String homeTelNumber;
+ * 8 : String mobileTelNumber;
+ * 9 : String mobileTelNumber2;
+ * 10 : String email;
+ * 11 : String skype;
+ * 12 : HashMap<String, String> addressSeparated;
+ * 13 : String addressFull;
+ * 14 : GregorianCalendar creationDate;
+ * 15 : GregorianCalendar lastChangeDate;
+ */
+public class Notebook implements Model{
+
+    private List<Map<Integer, Object>> notebook = new ArrayList<>();
+    private Controller controller;
+
+    public String getData(String request) {
+        return null;
+    }
+
+    public void setData(String data) {
+
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    /**
+     * Stores provided map into general List.
+     *
+     * @param map
+     */
+    public void addNoteToNotebook(Map map) {
+        notebook.add(map);
+    }
+
+    /**
+     * Provides required record if respective index is used.
+     *
+     * @param index
+     * @return
+     */
+    public Map<Integer, Object> getNote(int index) {
+        return notebook.get(index);
+    }
+
+    /**
+     * Provides information about index of last record in general List.
+     *
+     * @return
+     */
+    public int getLastNoteIndex(){
+        return notebook.size() - 1;
+    }
+}

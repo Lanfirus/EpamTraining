@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/resources/Groups.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/Groups_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/Groups_ru.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/Groups_ua.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/controller/messages.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/controller/messages_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/controller/messages_ru.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/controller/messages_ua.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/groups.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/groups_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/groups_ru.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/regexp.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/regexp_en.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/regexp_ru.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/regexp_ua.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/regexp.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/regexp_en.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/regexp_ru.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/regexp_ua.properties" />
+      <base-name>regexp</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/controller/messages.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/controller/messages_en.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/controller/messages_ru.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/controller/messages_ua.properties" />
+      <base-name>messages</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/Groups.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/Groups_en.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/Groups_ru.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/Groups_ua.properties" />
+      <base-name>Groups</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/groups.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/groups_en.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/groups_ru.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/groups_ua.properties" />
+      <base-name>groups</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>
