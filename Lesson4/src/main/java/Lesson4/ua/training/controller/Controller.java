@@ -115,10 +115,6 @@ public class Controller {
             e.printStackTrace();
         }
         model.addNoteToNotebook(temporaryRecord);
-        Map<Integer, Object> tmp = model.getNote(0);
-        for (Map.Entry<Integer, Object> x : tmp.entrySet()) {
-            System.out.println("key = " + x.getKey() + " value = " + x.getValue());
-        }
     }
 
     /**
