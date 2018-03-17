@@ -88,8 +88,12 @@ public class ModelEllipse implements Model, Cloneable{
     @Override
     public int hashCode() {
         int startValue = 31;
-        int hashCode = (int)(startValue*getX() + getY() + getFocalDistance() + getRadiusA() + getRadiusB());
-        return hashCode;
+        double hashCode = ((getX() == 0) ? hashCode() : startValue*getX());
+        hashCode = ((getY() == 0) ? hashCode() : hashCode*getY());
+        hashCode = ((getFocalDistance() == 0) ? hashCode() : hashCode*getFocalDistance());
+        hashCode = ((getRadiusA() == 0) ? hashCode() : hashCode*getRadiusA());
+        hashCode = ((getRadiusB() == 0) ? hashCode() : hashCode*getRadiusB());
+        return (int)hashCode;
     }
 
     @Override

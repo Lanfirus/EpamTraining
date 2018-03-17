@@ -8,7 +8,6 @@ public enum Messages {
     ENTER_PARAMETER_Y("Please, enter value for Y. It should be value from 0 to %.2f."),
     ENTER_FOCAL_DISTANCE ("Please, enter value for Focal Distance. It should be value from %f to %f."),
     ENTER_RADIUS_A ("Please, enter value for Radius A. It should be value from %.2f to %e."),
-    ENTER_RADIUS_B ("Please, enter value for Radius B. It should be value from %.2f to %e."),
     INCORRECT_INPUT_FOR_RADIUSB_CALCULATION ("Your input is incorrect. Focal distance [%f] can't be bigger than RadiusA [%f]"),
     PARAMETERS_SET ("All parameters have been successfully set."),
     VIEW_PARAMETER_CHOICE ("Do you want to see the value of some parameter? [Y]es or [N]o"),
