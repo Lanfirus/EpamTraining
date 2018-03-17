@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: Task6.ua.training.controller.ControllerTest
+-------------------------------------------------------------------------------
+Tests run: 26, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.212 sec
