@@ -1,0 +1,14 @@
+ua\training\servlet\LoginProblemServlet.class
+ua\training\servlet\ContextListener.class
+ua\training\model\Notebook.class
+ua\training\servlet\SuccessfulRegistrationServlet.class
+ua\training\model\NotUniqueLoginException.class
+ua\training\servlet\RegisterServlet.class
+ua\training\controller\ControllerWeb.class
+ua\training\model\DBEmu$1.class
+ua\training\model\Model.class
+ua\training\model\DBEmu$2.class
+ua\training\model\DBEmu.class
+ua\training\controller\Regexp.class
+ua\training\servlet\GetStartPageServlet.class
+ua\training\controller\Groups.class
