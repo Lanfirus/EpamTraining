@@ -1,56 +1,61 @@
 package ua.training.command;
 
+import ua.training.dao.NotUniqueLoginException;
+import ua.training.model.User;
 import ua.training.servlet.Servlet;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Map;
 
 /**
  * @author Dudchenko Andrei
  */
 public class Registration implements Command {
-
+    
     @Override
     public String execute(HttpServletRequest request) {
-        List<String> userRegistrationData = collectUserRegistrationData(request);
-        return tryToAddUserRegistrationDataToDB(userRegistrationData, request);
+        User user = new User(setUserData(request));
+        return tryToAddUserRegistrationDataToDB(user, request);
     }
 
-    private List<String> collectUserRegistrationData(HttpServletRequest request){
-        List<String> userRegistrationData = new CopyOnWriteArrayList<>();
-        userRegistrationData.add(request.getParameter("name"));
-        userRegistrationData.add(request.getParameter("surname"));
-        userRegistrationData.add(request.getParameter("patronymic"));
-        userRegistrationData.add(request.getParameter("login"));
-        userRegistrationData.add(request.getParameter("password"));
-        userRegistrationData.add(request.getParameter("comment"));
-        userRegistrationData.add(request.getParameter("homephonenumber"));
-        userRegistrationData.add(request.getParameter("mobilephonenumber"));
-        userRegistrationData.add(request.getParameter("email"));
-        return userRegistrationData;
+    private Map<String, String> setUserData(HttpServletRequest request){
+        Map<String, String> preparedUserData = new LinkedHashMap<>();
+        preparedUserData.put("name", request.getParameter("name"));
+        preparedUserData.put("surname", request.getParameter("surname"));
+        preparedUserData.put("patronymic", request.getParameter("patronymic"));
+        preparedUserData.put("login", request.getParameter("login"));
+        preparedUserData.put("password", request.getParameter("password"));
+        preparedUserData.put("comment", request.getParameter("comment"));
+        preparedUserData.put("homePhoneNumber", request.getParameter("homephonenumber"));
+        preparedUserData.put("mobilePhoneNumber", request.getParameter("mobilephonenumber"));
+        preparedUserData.put("email", request.getParameter("email"));
+        return preparedUserData;
     }
 
-    private String tryToAddUserRegistrationDataToDB(List<String> userRegistrationData, HttpServletRequest request){
-        if (Servlet.getControllerWeb().onRecievingDataFromWeb(userRegistrationData)) {
+    private String tryToAddUserRegistrationDataToDB(User user, HttpServletRequest request){
+        try{
+            Servlet.getUtilController().onRecievingDataFromWeb(user);
             return "/registration-successful.jsp";
         }
-        else {
-            makePreemptiveFillingOfUserRegistrationData(request);
+        catch (NotUniqueLoginException e) {
+            System.out.println(e.getMessage());
+            makePreemptiveFillingOfUserRegistrationData(request, user);
             return "/login_problem.jsp";
         }
     }
 
-    private void makePreemptiveFillingOfUserRegistrationData(HttpServletRequest request){
-        List<String> userRegistrationData = Servlet.getControllerWeb().getUserRegistrationData();
-        request.setAttribute("nameUser", userRegistrationData.get(0));
-        request.setAttribute("surnameUser", userRegistrationData.get(1));
-        request.setAttribute("patronymicUser", userRegistrationData.get(2));
-        request.setAttribute("loginUser", userRegistrationData.get(3));
+    private void makePreemptiveFillingOfUserRegistrationData(HttpServletRequest request, User user){
+        request.setAttribute("nameUser", user.getName());
+        request.setAttribute("surnameUser", user.getSurame());
+        request.setAttribute("patronymicUser", user.getPatronymic());
+        request.setAttribute("loginUser", user.getLogin());
         request.setAttribute("passwordUser", "");
-        request.setAttribute("commentUser", userRegistrationData.get(5));
-        request.setAttribute("homephonenumberUser", userRegistrationData.get(6));
-        request.setAttribute("mobilehonenumberUser", userRegistrationData.get(7));
-        request.setAttribute("emailUser", userRegistrationData.get(8));
+        request.setAttribute("commentUser", user.getComment());
+        request.setAttribute("homephonenumberUser", user.getHomePhoneNumber());
+        request.setAttribute("mobilehonenumberUser", user.getMobilePhoneNumber());
+        request.setAttribute("emailUser", user.getEmail());
     }
 }

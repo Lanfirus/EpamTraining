@@ -1,7 +1,8 @@
 package ua.training.servlet;
 
 import ua.training.command.*;
-import ua.training.controller.ControllerWeb;
+import ua.training.controller.UtilController;
+import ua.training.dao.SQLInteraction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,34 +10,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet(value = "/app/*")
 public class Servlet extends HttpServlet {
-    private Map<String, Command> commands = new ConcurrentHashMap<>();
-    private static ControllerWeb controllerWeb;
+    private Map<String, Command> commands = new HashMap<>();
+    private static UtilController utilController;
 
     public void init(){
         {
             commands.put("logout", new LogOut());
-            commands.put("login_form", new Login());
+            commands.put("login_form", new LoginForm());
+            commands.put("login", new Login());
             commands.put("registration_form", new RegistrationForm());
             commands.put("registration", new Registration());
             commands.put("exception", new MyException());
         }
-
-        final Object controllerWeb = getServletContext().getAttribute("controller");
-        if (controllerWeb == null || !(controllerWeb instanceof ControllerWeb)) {
-            throw new IllegalStateException("Controller is not setup");
-        }
-        else {
-            this.controllerWeb = (ControllerWeb)controllerWeb;
-        }
-    }
-
-    public static ControllerWeb getControllerWeb() {
-        return controllerWeb;
+        utilControllerInitialization();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -62,5 +55,29 @@ public class Servlet extends HttpServlet {
         }else {
             request.getRequestDispatcher(page).forward(request, response);
         }
+    }
+
+    private void utilControllerInitialization(){
+        SQLInteraction sqlInteraction = new SQLInteraction();
+        utilController = new UtilController(sqlInteraction);
+        try {
+            utilController.deInitializeDB();
+        }
+        catch (SQLException e) {
+            System.err.println("SQL hasn't been initialized properly");
+            System.err.println(e.getMessage());
+        }
+        try{
+            utilController.initializeDB();
+        }
+        catch (SQLException e) {
+            System.err.println("SQL hasn't been initialized properly");
+            System.err.println(e.getMessage());
+        }
+        utilController.bundleInitialization(new Locale("en"));
+    }
+
+    public static UtilController getUtilController() {
+        return utilController;
     }
 }

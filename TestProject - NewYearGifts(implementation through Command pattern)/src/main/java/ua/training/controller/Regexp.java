@@ -14,8 +14,8 @@ final class Regexp {
     private final static String LOGIN = "login";
     private final static String PASSWORD = "password";
     private final static String COMMENT = "comment";
-    private final static String PHONE_NUMBER_HOME = "phoneNumberHome";
-    private final static String PHONE_NUMBER_MOBILE = "phoneNumberMobile";
+    private final static String HOME_PHONE_NUMBER = "homePhoneNumber";
+    private final static String MOBILE_PHONE_NUMBER = "mobilePhoneNumber";
     private final static String EMAIL = "email";
 
     /**
@@ -24,7 +24,7 @@ final class Regexp {
      * @return
      */
     static List<String> returnRegexpArray(){
-        List<String> temp = Arrays.asList(NAME, SURNAME, PATRONYMIC, LOGIN, PASSWORD, COMMENT, PHONE_NUMBER_HOME, PHONE_NUMBER_MOBILE, EMAIL);
+        List<String> temp = Arrays.asList(NAME, SURNAME, PATRONYMIC, LOGIN, PASSWORD, COMMENT, HOME_PHONE_NUMBER, MOBILE_PHONE_NUMBER, EMAIL);
         return temp;
     }
 }

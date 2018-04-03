@@ -159,7 +159,7 @@ input:required, textarea:required {
 </head>
 
 <body>
-<form class="contact_form" action="login" method="post" name="contact_form">
+<form class="contact_form" action="/login" method="post" name="contact_form">
 
     <ul>
         <li>

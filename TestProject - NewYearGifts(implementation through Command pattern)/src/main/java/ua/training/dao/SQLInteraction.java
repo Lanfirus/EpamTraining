@@ -1,7 +1,11 @@
 package ua.training.dao;
 
+import ua.training.model.User;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SQLInteraction {
 
@@ -155,25 +159,35 @@ public class SQLInteraction {
         closeConnectionToDB();
     }
 
-    public void insertRecord(List<String> userRegistrationData) throws NotUniqueLoginException {
-        String preparedData = prepareValueForRecordInsertion(userRegistrationData);
+    public void insertRecord(Map<String, String> userData) throws NotUniqueLoginException {
+        String preparedData = prepareValueForRecordInsertion(userData);
         try {
             insertRecord(INSERT_RECORD_STATEMENT + preparedData);
         }
         catch(SQLException e){
-            throw new NotUniqueLoginException(e.getMessage(), userRegistrationData);
+            throw new NotUniqueLoginException(e.getMessage());
         }
     }
 
-    private String prepareValueForRecordInsertion(List<String> userRegistrationData) {
+    /*private List<String> convertUserDataToList(Map<String, String> userData){
+        List<String> userDataInList = new ArrayList<>();
+        userDataInList.add(userData.get("name"));
+        userDataInList.add(userData.get("surname"));
+        userDataInList.add(userData.get("patronymic"));
+        userDataInList.add(userData.get("login"));
+    }*/
+
+    private String prepareValueForRecordInsertion(Map<String, String> userData) {
         StringBuilder builder = new StringBuilder();
         builder.append("VALUES (");
-        for (int userField = 0; userField < userRegistrationData.size(); userField++) {
-            if (userField == 0) {
-                builder.append("\'" + userRegistrationData.get(userField) + "\'");
+        int counter = 0;
+        for (Map.Entry<String, String> field : userData.entrySet()) {
+            if (counter == 0) {
+                builder.append("\'" + field.getValue() + "\'");
+                counter++;
             }
             else {
-                builder.append(", \'" + userRegistrationData.get(userField) + "\'");
+                builder.append(", \'" + field.getValue() + "\'");
             }
         }
         builder.append(");");
