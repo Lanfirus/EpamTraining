@@ -1,6 +1,7 @@
 package ua.training.command;
 
 import ua.training.controller.UtilController;
+import ua.training.servlet.Servlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,7 +21,8 @@ public class Login implements Command{
 
         final HttpSession session = request.getSession();
 
-        setUtilController(request);
+        utilController = Servlet.getUtilController();
+
 
         try {
             if (session.getAttribute("login") != null && session.getAttribute("password") != null) {
@@ -31,6 +33,8 @@ public class Login implements Command{
                 request.getSession().setAttribute("login", login);
                 request.getSession().setAttribute("password", password);
                 request.getSession().setAttribute("role", role);
+                String fullName = utilController.getFullNameByLoginPassword(login, password);
+                request.getSession().setAttribute("full_name", fullName);
             }
             else {
                 role = "unknown";
@@ -42,22 +46,12 @@ public class Login implements Command{
         return getUserMenuPage(role);
     }
 
-    private void setUtilController(HttpServletRequest request){
-        final Object controllerWeb = request.getServletContext().getAttribute("controller");
-        if (controllerWeb == null || !(controllerWeb instanceof UtilController)) {
-            throw new IllegalStateException("Controller is not setup");
-        }
-        else {
-            this.utilController = (UtilController)controllerWeb;
-        }
-    }
-
     private String getUserMenuPage(final String role){
         if (role.equals("admin")) {
-            return "/admin_menu.jsp";
+            return "/products.jsp";
         }
         else if (role.equals("user")) {
-            return "/user_menu.jsp";
+            return "/products.jsp";
         }
         else {
             return "/login.jsp";

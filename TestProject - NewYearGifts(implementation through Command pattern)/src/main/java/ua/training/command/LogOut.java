@@ -1,10 +1,18 @@
 package ua.training.command;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class LogOut implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        return "redirect:/index.jsp";
+
+        final HttpSession session = request.getSession();
+        session.removeAttribute("login");
+        session.removeAttribute("password");
+        session.removeAttribute("role");
+        session.removeAttribute("full_name");
+
+        return "/index.jsp";
     }
 }

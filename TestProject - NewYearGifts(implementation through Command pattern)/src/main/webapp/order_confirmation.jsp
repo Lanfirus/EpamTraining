@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Andrei Dudchenko's New Year gift shop</title>
+    <title>Andrei Dudchenko's Order confirmation Form</title>
     <style>
     *:focus {outline: none;}
 
@@ -13,27 +12,27 @@
    }
 
    body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif;}
-.contact_form h2, .contact_form label {font-family:Georgia, Times, "Times New Roman", serif;}
+.order_confirmation_form h2, .order_confirmation_form label {font-family:Georgia, Times, "Times New Roman", serif;}
 .form_hint, .required_notification {font-size: 11px;}
 
-.contact_form ul {
+.order_confirmation_form ul {
  width:750px;
  list-style-type:none;
  list-style-position:outside;
  margin:0px;
  padding:0px;
 }
-.contact_form li{
+.order_confirmation_form li{
  padding:12px;
  border-bottom:1px solid #eee;
  position:relative;
 }
 
-.contact_form li:first-child, .contact_form li:last-child {
+.order_confirmation_form li:first-child, .order_confirmation_form li:last-child {
  border-bottom:1px solid #777;
 }
 
-.contact_form h2 {
+.order_confirmation_form h2 {
  margin:0;
  display: inline;
 }
@@ -44,27 +43,27 @@
  float:right;
 }
 
-.contact_form label {
+.order_confirmation_form label {
  width:150px;
  margin-top: 3px;
  display:inline-block;
  float:left;
  padding:3px;
 }
-.contact_form input {
+.order_confirmation_form input {
  height:20px;
  width:220px;
  padding:5px 8px;
 }
-.contact_form textarea {padding:8px; width:300px;}
-.contact_form button {margin-left:156px;}
+.order_confirmation_form textarea {padding:8px; width:300px;}
+.order_confirmation_form button {margin-left:156px;}
 
-.contact_form input, .contact_form textarea {
+.order_confirmation_form input, .order_confirmation_form textarea {
  border:1px solid #aaa;
  box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
  border-radius:2px;
 }
-.contact_form input:focus, .contact_form textarea:focus {
+.order_confirmation_form input:focus, .order_confirmation_form textarea:focus {
  background: #fff;
  border:1px solid #555;
  box-shadow: 0 0 3px #aaa;
@@ -113,24 +112,24 @@ button.submit:active {
  -ms-box-shadow: 0 0 10px 5px #356b0b inset;
  -o-box-shadow: 0 0 10px 5px #356b0b inset;
 }
-.contact_form input, .contact_form textarea {
+.order_confirmation_form input, .order_confirmation_form textarea {
  padding-right:30px;
 }
 
-.contact_form input:focus:invalid, .contact_form textarea:focus:invalid { /* when a field is considered invalid by the browser */
- background: #fff url(images/red_star.png) no-repeat 98% center;
+.order_confirmation_form input:focus:invalid, .order_confirmation_form textarea:focus:invalid { /* when a field is considered invalid by the browser */
+ background: #fff url(${pageContext.request.contextPath}/images/red_star.png) no-repeat 98% center;
  box-shadow: 0 0 5px #d45252;
  border-color: #b03535
 }
 
-.contact_form input:required:valid, .contact_form textarea:required:valid { /* when a field is considered valid by the browser */
+.order_confirmation_form input:required:valid, .order_confirmation_form textarea:required:valid { /* when a field is considered valid by the browser */
  box-shadow: 0 0 5px #5cd053;
  border-color: #28921f;
 }
 
 input:required, textarea:required {
  background: #fff no-repeat 98% center;
- background-image: url(images/red_star.png)
+ background-image: url(${pageContext.request.contextPath}/images/red_star.png)
 }
 
 .form_hint {
@@ -152,43 +151,35 @@ input:required, textarea:required {
  left:-6px;
 }
 
-.contact_form input:focus + .form_hint {display: inline;}
-.contact_form input:required:valid + .form_hint {background: #28921f;} /* change form hint color when valid */
-.contact_form input:required:valid + .form_hint::before {color:#28921f;} /* change form hint arrow color when valid */
+.order_confirmation_form input:focus + .form_hint {display: inline;}
+.order_confirmation_form input:required:valid + .form_hint {background: #28921f;} /* change form hint color when valid */
+.order_confirmation_form input:required:valid + .form_hint::before {color:#28921f;} /* change form hint arrow color when valid */
   </style>
     <link rel="stylesheet" media="screen" href="styles.css" >
 </head>
 
 <body>
-<form class="contact_form" action="register" method="post" name="contact_form">
+<form class="order_confirmation_form" action="order_confirmation" method="post" name="order_confirmation_form">
 
-<c:if test="${not empty sessionScope.full_name}">
-        <h1><span>${full_name},</span></h1>
-</c:if>
-<h1>Welcome to our New Year Sweety Gift shop!</h1>
+<h2>Order confirmation</h2>
 
+<h3>${full_name}, we are very grateful that you have selected some goods from our site.
+You have chosen  the following items:</h3>
+<h3>Number of small boxes : ${quantity_to_order_small_boxes}</h3>
+<p></p>
+<h3>Number of medium boxes : ${quantity_to_order_medium_boxes}</h3>
+<p></p>
+<h3>Number of big boxes : ${quantity_to_order_big_boxes}</h3>
+<p></p>
+<p></p>
+<h3>Is everything OK? In this case, please, submit your order for us to proceed with it.</h3>
+<p></p>
+<h3>Or maybe you would like to add some more our great premade or custom New Year Sweet Gifts?
+In this case we would love you to continue exploration of our site given the link below.</h3>
 
-
-<p>&nbsp;</p>
-<h3>In this place you can find all kinds of sweeties, ones carefully choosen for you and organized in 3 sizes of gift boxes and ones you could select by yourself getting trully unique sweet gift for ones you love!</h3>
-<h3>To get full set of our services we do recommend you to register on our site.</h3>
-<h3>In you are already our very important client, we would love you to login, so we'll be able to satisfy all your sweet needs.</h3>
-<h3>In any case, we glad to see you on our site. You are welcome to look through our prepared and custom variants of sweet gifts.</h3>
-<h3>All respective links you will find just below this text at the end of this page.</h3>
-
-<p>&nbsp;</p>
-
-<c:if test="${empty sessionScope.full_name}">
-<h2><a href = "${pageContext.request.contextPath}/app/registration_form"> Registration on our site</a></h2>
-<p>&nbsp;</p>
-<h2><a href = "${pageContext.request.contextPath}/app/login_form"> Login to get full expirience</a></h2>
-</c:if>
-
-<c:if test="${not empty sessionScope.full_name}">
-        <h2><a href = "${pageContext.request.contextPath}/app/logout"><span>Logout</span></a></h2>
-        <p></p>
-        <h2><a href = "${pageContext.request.contextPath}/app/login">Continue to see our great offers</a></h2>
-</c:if>
+<button class="submit" type="submit">Confirm Order</button>
+<p></p>
+<h3><a href = "${pageContext.request.contextPath}/app/products"><span>Look more for our products</span></a></h3>
 
 
 </form>

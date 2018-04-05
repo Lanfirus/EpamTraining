@@ -1,10 +1,6 @@
 package ua.training.dao;
 
-import ua.training.model.User;
-
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class SQLInteraction {
@@ -17,7 +13,7 @@ public class SQLInteraction {
     private final static String CREATE_DB_STATEMENT =
             "CREATE DATABASE training CHARACTER SET utf8 COLLATE utf8_general_ci";
     private final static String DROP_DB_STATEMENT = "drop database `training`";
-    private final static String CREATE_TABLE_STATEMENT = "CREATE TABLE `users` (" +
+    private final static String CREATE_USER_TABLE_STATEMENT = "CREATE TABLE `users` (" +
             "  `id` int(10) NOT NULL auto_increment," +
             "  `name` varchar(50) NOT NULL," +
             "  `surname` varchar(50) NOT NULL," +
@@ -31,11 +27,20 @@ public class SQLInteraction {
             "  `role` VARCHAR(45) NOT NULL DEFAULT 'user'," +
             "  PRIMARY KEY  (`id`)" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-    private final static String INSERT_RECORD_STATEMENT = "INSERT INTO `users` (`name`,`surname`,`patronymic`,`login`,`password`,`comment`,`home_tel_number`,`mobile_tel_number`,`email`)";
-    private final static String INSERT_RECORD1_VALUE = " VALUES ('Petr', 'Petrov','Petrovich','Petrov112','Petrov_the_best','Petrovich is the best!', '380441234567', '380441234567', 'petrovich@ua.ua');";
-    private final static String INSERT_RECORD2_VALUE = " VALUES ('Ivan', 'Ivanov', '','Ivanych','12345','nothing to comment','380501234567', '380631234567', 'callToIvanych@i.ua');";
-    private final static String UPDATE_RECORD2_STATEMENT = "UPDATE `users` SET `role`='admin' WHERE `id`='1';";
-    private final static String QUERY_RECORD_STATEMENT = "SELECT * FROM `users` where ";
+    private final static String CREATE_PREMADE_ORDER_TABLE_STATEMENT = "CREATE TABLE `premade_order` (" +
+            "  `id` int(10) NOT NULL auto_increment," +
+            "  `login` varchar(50) NOT NULL, " +
+            "  `small_box_number` varchar(100) NULL," +
+            "  `medium_box_number` varchar(12) NULL," +
+            "  `big_box_number` varchar(12) NOT NULL," +
+            "  PRIMARY KEY  (`id`)" +
+            ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+    private final static String INSERT_USER_RECORD_STATEMENT = "INSERT INTO `users` (`name`,`surname`,`patronymic`,`login`,`password`,`comment`,`home_tel_number`,`mobile_tel_number`,`email`)";
+    private final static String INSERT_USER_RECORD1_VALUE = " VALUES ('Petr', 'Petrov','Petrovich','Petrov112','Petrov_the_best','Petrovich is the best!', '380441234567', '380441234567', 'petrovich@ua.ua');";
+    private final static String INSERT_USER_RECORD2_VALUE = " VALUES ('Ivan', 'Ivanov', '','Ivanych','12345','nothing to comment','380501234567', '380631234567', 'callToIvanych@i.ua');";
+    private final static String UPDATE_USER_RECORD2_STATEMENT = "UPDATE `users` SET `role`='admin' WHERE `id`='1';";
+    private final static String QUERY_USER_RECORD_STATEMENT = "SELECT * FROM `users` where ";
+    private final static String INSERT_PREMADE_ORDER_RECORD_STATEMENT = "INSERT INTO `premade_order` (`login`,`small_box_number`,`medium_box_number`,`big_box_number`)";
 
 
 
@@ -103,9 +108,10 @@ public class SQLInteraction {
         statement.executeUpdate(DROP_DB_STATEMENT);
     }
 
-    private void createTable() throws SQLException{
+    private void createTables() throws SQLException{
         Statement statement = connection.createStatement();
-        statement.executeUpdate(CREATE_TABLE_STATEMENT);
+        statement.executeUpdate(CREATE_USER_TABLE_STATEMENT);
+//        statement.executeUpdate(CREATE_PREMADE_ORDER_TABLE_STATEMENT);
     }
 
     public void executeSelectQuery(String query) throws SQLException{
@@ -121,6 +127,14 @@ public class SQLInteraction {
         return resultSet.getString("role");
     }
 
+    public String executeGetFullNameQuery(String login, String password) throws SQLException{
+        Statement statement = connection.createStatement();
+        String query = concatIsUserExistQuery(login, password);
+        ResultSet resultSet = statement.executeQuery(query);
+        resultSet.next();
+        return resultSet.getString("name") + " " + resultSet.getString("surname");
+    }
+
     public boolean executeIsUserExistQuery(String login, String password) throws SQLException{
         Statement statement = connection.createStatement();
         String query = concatIsUserExistQuery(login, password);
@@ -133,7 +147,7 @@ public class SQLInteraction {
     }
 
     private String concatIsUserExistQuery(String login, String password){
-        String query = QUERY_RECORD_STATEMENT + "login = '" + login + "' and password = '" + password + "';";
+        String query = QUERY_USER_RECORD_STATEMENT + "login = '" + login + "' and password = '" + password + "';";
         return query;
     }
 
@@ -147,10 +161,13 @@ public class SQLInteraction {
         createDB();
         closeConnectionToDB();
         getCustomConnection();
-        createTable();
-        insertRecord(INSERT_RECORD_STATEMENT + INSERT_RECORD1_VALUE);
-        insertRecord(INSERT_RECORD_STATEMENT + INSERT_RECORD2_VALUE);
-        insertRecord(UPDATE_RECORD2_STATEMENT);
+        System.out.println("1");
+        createTables();
+        System.out.println("2");
+        insertRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD1_VALUE);
+        insertRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD2_VALUE);
+        System.out.println("3");
+        insertRecord(UPDATE_USER_RECORD2_STATEMENT);
     }
 
     public void deInitializeDB() throws SQLException{
@@ -162,26 +179,18 @@ public class SQLInteraction {
     public void insertRecord(Map<String, String> userData) throws NotUniqueLoginException {
         String preparedData = prepareValueForRecordInsertion(userData);
         try {
-            insertRecord(INSERT_RECORD_STATEMENT + preparedData);
+            insertRecord(INSERT_USER_RECORD_STATEMENT + preparedData);
         }
         catch(SQLException e){
             throw new NotUniqueLoginException(e.getMessage());
         }
     }
 
-    /*private List<String> convertUserDataToList(Map<String, String> userData){
-        List<String> userDataInList = new ArrayList<>();
-        userDataInList.add(userData.get("name"));
-        userDataInList.add(userData.get("surname"));
-        userDataInList.add(userData.get("patronymic"));
-        userDataInList.add(userData.get("login"));
-    }*/
-
-    private String prepareValueForRecordInsertion(Map<String, String> userData) {
+    private String prepareValueForRecordInsertion(Map<String, String> data) {
         StringBuilder builder = new StringBuilder();
         builder.append("VALUES (");
         int counter = 0;
-        for (Map.Entry<String, String> field : userData.entrySet()) {
+        for (Map.Entry<String, String> field : data.entrySet()) {
             if (counter == 0) {
                 builder.append("\'" + field.getValue() + "\'");
                 counter++;

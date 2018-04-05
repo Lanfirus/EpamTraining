@@ -220,7 +220,7 @@ input:required, textarea:required {
 
         <li>
             <label for="comment">Comment:</label>
-            <input type="text" name="comment" placeholder="Any comment" value=<%= request.getAttribute("commentUser")%>
+            <input type="text" name="comment" placeholder="Any comment" value="<%= request.getAttribute("commentUser")%>"
                     pattern=".+"/>
             <span class="form_hint">Please, enter comment. It should have at least one symbol. All symbols are allowed.</span>
         </li>
@@ -228,7 +228,7 @@ input:required, textarea:required {
         <li>
             <label for="homephonenumber">Home phone number:</label>
             <input type="text" name="homephonenumber" placeholder="380441234567"
-            value=<%= request.getAttribute("homephonenumberUser")%> pattern="^(?:380\d{9}|\d{10,12})$"/>
+            value="<%= request.getAttribute("homephonenumberUser")%>" pattern="^(?:380\d{9}|\d{10,12})$"/>
             <span class="form_hint">Please, enter home phone number. It should be a set from 10, 11 or 12 digits.
                                     For example, 380441234567.</span>
         </li>

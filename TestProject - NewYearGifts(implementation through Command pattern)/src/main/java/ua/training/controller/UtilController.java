@@ -103,7 +103,7 @@ public class UtilController {
         boolean check = true;
         bundleInitialization(new Locale("en"));
         for (Map.Entry<String, String> field : userData.entrySet()){
-            check &= matchInputWithRegexp(field.getValue(), regexpBundle.getString(field.getValue()));
+            check &= matchInputWithRegexp(field.getValue(), regexpBundle.getString(field.getKey()));
         }
         return check;
     }
@@ -118,5 +118,13 @@ public class UtilController {
             throw new NullPointerException("This user doesn't have any role");
         }
         return temporaryRoleValue;
+    }
+
+    public String getFullNameByLoginPassword(String login, String password) throws SQLException{
+        String temporaryFullNameValue = sqlInteraction.executeGetFullNameQuery(login, password);
+        if (temporaryFullNameValue == null){
+            throw new NullPointerException("This user doesn't have name or surname");
+        }
+        return temporaryFullNameValue;
     }
 }

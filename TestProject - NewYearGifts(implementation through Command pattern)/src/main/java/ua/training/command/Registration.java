@@ -50,11 +50,11 @@ public class Registration implements Command {
     private void makePreemptiveFillingOfUserRegistrationData(HttpServletRequest request, User user){
         request.setAttribute("nameUser", user.getName());
         request.setAttribute("surnameUser", user.getSurame());
-        request.setAttribute("patronymicUser", user.getPatronymic());
+        request.setAttribute("patronymicUser", user.getPatronymic() == null ? "" : user.getPatronymic());
         request.setAttribute("loginUser", user.getLogin());
         request.setAttribute("passwordUser", "");
-        request.setAttribute("commentUser", user.getComment());
-        request.setAttribute("homephonenumberUser", user.getHomePhoneNumber());
+        request.setAttribute("commentUser", user.getComment() == null ? "" : user.getComment());
+        request.setAttribute("homephonenumberUser", user.getHomePhoneNumber() == null ? "" : user.getHomePhoneNumber());
         request.setAttribute("mobilehonenumberUser", user.getMobilePhoneNumber());
         request.setAttribute("emailUser", user.getEmail());
     }
