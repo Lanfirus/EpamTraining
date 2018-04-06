@@ -31,6 +31,8 @@ public class Servlet extends HttpServlet {
             commands.put("premade_order", new PremadeOrderProcessing());
             commands.put("return_to_main", new ReturnToMain());
             commands.put("products", new NavigateToProductPage());
+            commands.put("order_confirmation", new OrderConfirmation());
+            commands.put("custom_order", new NavigateToCustomOrderPage());
         }
         utilControllerInitialization();
     }
@@ -64,7 +66,6 @@ public class Servlet extends HttpServlet {
         SQLInteraction sqlInteraction = new SQLInteraction();
         utilController = new UtilController(sqlInteraction);
         try {
-            System.out.println("5");
             utilController.deInitializeDB();
         }
         catch (SQLException e) {
@@ -72,7 +73,6 @@ public class Servlet extends HttpServlet {
             System.err.println(e.getMessage());
         }
         try{
-            System.out.println("6");
             utilController.initializeDB();
         }
         catch (SQLException e) {

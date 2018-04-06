@@ -5,9 +5,7 @@ import ua.training.model.User;
 import ua.training.servlet.Servlet;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +35,7 @@ public class Registration implements Command {
 
     private String tryToAddUserRegistrationDataToDB(User user, HttpServletRequest request){
         try{
-            Servlet.getUtilController().onRecievingDataFromWeb(user);
+            Servlet.getUtilController().onRecievingUserRegistrationDataFromWeb(user);
             return "/registration-successful.jsp";
         }
         catch (NotUniqueLoginException e) {

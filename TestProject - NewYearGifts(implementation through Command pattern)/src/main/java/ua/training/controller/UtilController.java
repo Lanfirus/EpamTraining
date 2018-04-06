@@ -6,7 +6,6 @@ import ua.training.model.User;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Pattern;
 
 /**
@@ -73,17 +72,26 @@ public class UtilController {
      * @param userData
      */
     public boolean sendReadyDataToDB(Map<String, String> userData) throws NotUniqueLoginException{
-        sqlInteraction.insertRecord(userData);
+        sqlInteraction.insertUserRecord(userData);
         return true;
     }
 
     /**
      * Sends preliminary checked data from web to 2nd check and if it's correct
      * sends data to try to be stored into DB.
-     * @param user
+     * @param orderData
      * @return
      */
-    public boolean onRecievingDataFromWeb(User user) throws NotUniqueLoginException{
+    public void onRecievingOrderDataFromWeb(Map<String, String> orderData) throws SQLException, InappropriateBulkOrderException{
+        if(checkOrderDataForCorrectness(orderData)) {
+            sqlInteraction.insertOrderRecord(orderData);
+        }
+        else{
+            throw new RuntimeException("Something happened during order confirmation data check");
+        }
+    }
+
+    public boolean onRecievingUserRegistrationDataFromWeb(User user) throws NotUniqueLoginException{
         Map<String, String> userData = user.getUserData();
         if (checkDataFromWebForCorrectness(userData)) {
             return sendReadyDataToDB(userData);
@@ -126,5 +134,24 @@ public class UtilController {
             throw new NullPointerException("This user doesn't have name or surname");
         }
         return temporaryFullNameValue;
+    }
+
+    private boolean checkOrderDataForCorrectness(Map<String, String> orderData) throws InappropriateBulkOrderException{
+        String regexpNormal = "^[0-9]{1,4}$";
+        String regexpBulkOrder = "^[0-9]{5,}$";
+        boolean check = true;
+        for (Map.Entry<String, String> orderField : orderData.entrySet()) {
+            if (!orderField.getKey().equals("login") && !matchInputWithRegexp(orderField.getValue(), regexpNormal)) {
+                System.out.println(orderField.getValue());
+                if(!matchInputWithRegexp(orderField.getValue(), regexpBulkOrder)) {
+                    System.out.println(orderField.getValue());
+                    check &= false;
+                }
+                else {
+                    throw new InappropriateBulkOrderException();
+                }
+            }
+        }
+        return check;
     }
 }

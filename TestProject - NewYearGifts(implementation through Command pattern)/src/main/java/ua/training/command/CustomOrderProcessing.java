@@ -7,14 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
-public class PremadeOrderProcessing implements Command{
+public class CustomOrderProcessing implements Command{
 
     private UtilController utilController;
 
-
     @Override
     public String execute(HttpServletRequest request) {
-
         final HttpSession session = request.getSession();
         final String login = (String)session.getAttribute("login");
         final String password = (String) session.getAttribute("password");
@@ -72,11 +70,10 @@ public class PremadeOrderProcessing implements Command{
         session.setAttribute(attributeName, newAttributeValueToStoreInSession);
     }
 
-    private String getUserMenuPage(final String role){
+    private String getUserMenuPage(final String role) {
         if (role.equals("user") || role.equals("admin")) {
             return "/order_confirmation.jsp";
-        }
-        else {
+        } else {
             return "/login.jsp";
         }
     }

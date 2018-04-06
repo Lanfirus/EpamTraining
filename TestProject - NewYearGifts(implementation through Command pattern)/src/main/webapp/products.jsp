@@ -158,33 +158,33 @@
     in 3 sizes of gift boxes - Small, Medium and Big ones.</h3>
 
     <h3><p><img src="${pageContext.request.contextPath}/images/small_gift_box.jpg" class="leftimg" align="top"
-        alt="Small gift box" width="165" height="165" />Small one could hold up to 20 sweeties and weight up to 300 gramms.
+        alt="Small gift box" width="165" height="165" />Small box hold 20 sweeties and weight up to 300 gramms.
         In premade one you will find inside 5 caramel candies, 4 chocolate candies, 3 jelly candies and 2 lollipops.
-        Also you will find inside 2 waffles and 2 marshmallows.fff</p></h3>
+        Also you will find inside 2 waffles and 2 marshmallows.</p></h3>
         <label for="quantity_to_order_small_boxes">Quantity to order</label>
-        <input type="number" min=0 max=999 value=0 name="quantity_to_order_small_boxes" required pattern="^(?![0-9]{4,})[0-9]{0,3}$"/>
+        <input type="number" min=0 max=999 value=0 name="quantity_to_order_small_boxes" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"/>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3><img src="${pageContext.request.contextPath}/images/medium_gift_box.jpg" class="leftimg" align="top"
-    alt="Medium gift box" width="165" height="165" />Medium&nbsp;one could hold up to 40 sweeties and weight up to 600 gramms.
+    alt="Medium gift box" width="165" height="165" />Medium box hold 40 sweeties and weight up to 600 gramms.
     In premade one you will find inside 10 caramel candies, 8 chocolate candies, 6 jelly candies and 4 lollipops.
     Also you will find inside 4 waffles and 4 marshmallows.</h3>
     <label for="quantity_to_order_medium_boxes">Quantity to order</label>
-    <input type="number" min=0 max=999 value=0 name="quantity_to_order_medium_boxes" required pattern="^(?![0-9]{4,})[0-9]{0,3}$"/>
+    <input type="number" min=0 max=999 value=0 name="quantity_to_order_medium_boxes" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"/>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <h3><img src="${pageContext.request.contextPath}/images/big_gift_box.jpg" class="leftimg" align="top"
-    alt="Box gift box" width="165" height="165" />Big one could hold up to 60 sweeties and weight up to 900 gramms.
+    alt="Box gift box" width="165" height="165" />Big box hold 60 sweeties and weight up to 900 gramms.
     In premade one you will find inside 15 caramel candies, 12 chocolate candies, 9 jelly candies and 6 lollipops.
     Also you will find inside 6 waffles and 6 marshmallows.</h3>
      <label for="quantity_to_order_big_boxes">Quantity to order</label>
-     <input type="number" min=0 max=999 value=0 name="quantity_to_order_big_boxes" required pattern="^(?![0-9]{4,})[0-9]{0,3}$"/>
+     <input type="number" min=0 max=999 value=0 name="quantity_to_order_big_boxes" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"/>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

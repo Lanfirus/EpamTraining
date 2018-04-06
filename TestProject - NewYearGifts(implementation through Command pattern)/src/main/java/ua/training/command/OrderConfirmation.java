@@ -1,11 +1,14 @@
 package ua.training.command;
 
+import ua.training.controller.InappropriateBulkOrderException;
 import ua.training.controller.UtilController;
 import ua.training.servlet.Servlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class OrderConfirmation implements Command{
 
@@ -25,54 +28,46 @@ public class OrderConfirmation implements Command{
             if (utilController.userIsExist(login, password)) {
                 roleFromDB = utilController.getRoleByLoginPassword(login, password);
                 if (roleFromDB.equals("admin") || roleFromDB.equals("user")) {
-                    premadeOrderProcessing(request, session);
+                    tryToAddOrderDataToDB(setUserData(session));
+                    session.removeAttribute("quantity_to_order_small_boxes");
+                    session.removeAttribute("quantity_to_order_medium_boxes");
+                    session.removeAttribute("quantity_to_order_big_boxes");
+                    return "/order_submission_complete.jsp";
                 }
                 else {
-                    roleFromDB = "unknown";
+                    return "/index.jsp";
                 }
             }
             else {
-                roleFromDB = "unknown";
+                return "/index.jsp";
             }
         }
         catch(SQLException e){
             throw new RuntimeException(e.getMessage());
         }
-        return getUserMenuPage(roleFromDB);
-    }
-
-    private void premadeOrderProcessing(HttpServletRequest request, HttpSession session){
-        if(session.getAttribute("quantity_to_order_small_boxes") == null) {
-            session.setAttribute("quantity_to_order_small_boxes",
-                    (request.getParameter("quantity_to_order_small_boxes") == null) ? 0 :
-                            request.getParameter("quantity_to_order_small_boxes"));
-            session.setAttribute("quantity_to_order_medium_boxes",
-                    (request.getParameter("quantity_to_order_medium_boxes") == null) ? 0 :
-                            request.getParameter("quantity_to_order_medium_boxes"));
-            session.setAttribute("quantity_to_order_big_boxes",
-                    (request.getParameter("quantity_to_order_big_boxes") == null) ? 0 :
-                            request.getParameter("quantity_to_order_big_boxes"));
-        }
-        else {
-            mergeSessionAttributes(request, session, "quantity_to_order_small_boxes");
-            mergeSessionAttributes(request, session, "quantity_to_order_medium_boxes");
-            mergeSessionAttributes(request, session, "quantity_to_order_big_boxes");
+        catch(InappropriateBulkOrderException e){
+            session.removeAttribute("quantity_to_order_small_boxes");
+            session.removeAttribute("quantity_to_order_medium_boxes");
+            session.removeAttribute("quantity_to_order_big_boxes");
+            return "/inappropriate_bulk_order.jsp";
         }
     }
 
-    private void mergeSessionAttributes(HttpServletRequest request, HttpSession session, String attributeName){
-        Integer storedAttributeValue = Integer.parseInt((String)session.getAttribute(attributeName));
-        Integer newAttributeValueGottenFromUser = Integer.parseInt(request.getParameter(attributeName));
-        Object newAttributeValueToStoreInSession = (storedAttributeValue + newAttributeValueGottenFromUser);
-        session.setAttribute(attributeName, newAttributeValueToStoreInSession);
+    private Map<String, String> setUserData(HttpSession session) {
+        Map<String, String> preparedUserData = new LinkedHashMap<>();
+        preparedUserData.put("login", (String) session.getAttribute("login"));
+        preparedUserData.put("quantity_to_order_small_boxes", (String) session.getAttribute("quantity_to_order_small_boxes"));
+        preparedUserData.put("quantity_to_order_medium_boxes", (String) session.getAttribute("quantity_to_order_medium_boxes"));
+        preparedUserData.put("quantity_to_order_box_boxes", (String) session.getAttribute("quantity_to_order_big_boxes"));
+        return preparedUserData;
     }
 
-    private String getUserMenuPage(final String role){
-        if (role.equals("user") || role.equals("admin")) {
-            return "/order_confirmation.jsp";
+        private void tryToAddOrderDataToDB(Map<String, String> userData) throws InappropriateBulkOrderException{
+        try {
+            Servlet.getUtilController().onRecievingOrderDataFromWeb(userData);
         }
-        else {
-            return "/login.jsp";
+        catch(SQLException e){
+            throw new RuntimeException("Something bad has happened" + e.getMessage());
         }
     }
 }

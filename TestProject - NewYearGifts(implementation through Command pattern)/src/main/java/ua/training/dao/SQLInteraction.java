@@ -111,7 +111,7 @@ public class SQLInteraction {
     private void createTables() throws SQLException{
         Statement statement = connection.createStatement();
         statement.executeUpdate(CREATE_USER_TABLE_STATEMENT);
-//        statement.executeUpdate(CREATE_PREMADE_ORDER_TABLE_STATEMENT);
+        statement.executeUpdate(CREATE_PREMADE_ORDER_TABLE_STATEMENT);
     }
 
     public void executeSelectQuery(String query) throws SQLException{
@@ -151,7 +151,7 @@ public class SQLInteraction {
         return query;
     }
 
-    private void insertRecord(String record)throws SQLException{
+    private void insertUserRecord(String record)throws SQLException{
         Statement statement = connection.createStatement();
         statement.executeUpdate(record);
     }
@@ -161,13 +161,10 @@ public class SQLInteraction {
         createDB();
         closeConnectionToDB();
         getCustomConnection();
-        System.out.println("1");
         createTables();
-        System.out.println("2");
-        insertRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD1_VALUE);
-        insertRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD2_VALUE);
-        System.out.println("3");
-        insertRecord(UPDATE_USER_RECORD2_STATEMENT);
+        insertUserRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD1_VALUE);
+        insertUserRecord(INSERT_USER_RECORD_STATEMENT + INSERT_USER_RECORD2_VALUE);
+        insertUserRecord(UPDATE_USER_RECORD2_STATEMENT);
     }
 
     public void deInitializeDB() throws SQLException{
@@ -176,14 +173,19 @@ public class SQLInteraction {
         closeConnectionToDB();
     }
 
-    public void insertRecord(Map<String, String> userData) throws NotUniqueLoginException {
+    public void insertUserRecord(Map<String, String> userData) throws NotUniqueLoginException {
         String preparedData = prepareValueForRecordInsertion(userData);
         try {
-            insertRecord(INSERT_USER_RECORD_STATEMENT + preparedData);
+            insertUserRecord(INSERT_USER_RECORD_STATEMENT + preparedData);
         }
         catch(SQLException e){
             throw new NotUniqueLoginException(e.getMessage());
         }
+    }
+
+    public void insertOrderRecord(Map<String, String> userData) throws SQLException{
+        String preparedData = prepareValueForRecordInsertion(userData);
+        insertUserRecord(INSERT_PREMADE_ORDER_RECORD_STATEMENT + preparedData);
     }
 
     private String prepareValueForRecordInsertion(Map<String, String> data) {
