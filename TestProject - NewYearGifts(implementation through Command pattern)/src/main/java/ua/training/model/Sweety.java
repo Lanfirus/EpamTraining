@@ -18,7 +18,7 @@ public enum Sweety {
         this.name = name;
     }
 
-    public Integer weight() { return weight; }
-    public Integer sugarValue() { return sugarValue; }
-    public String called_name() {return name;}
+    public Integer getWeight() { return weight; }
+    public Integer getSugarValue() { return sugarValue; }
+    public String getName() {return name;}
 }

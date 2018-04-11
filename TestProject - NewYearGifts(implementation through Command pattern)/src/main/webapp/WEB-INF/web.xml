@@ -8,7 +8,6 @@
          version="2.5">
   <display-name>Archetype Created Web Application</display-name>
 
-
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
     <location>/error.jsp</location>

@@ -56,6 +56,13 @@
       <version>6.0.6</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/displaytag/displaytag -->
+    <dependency>
+      <groupId>displaytag</groupId>
+      <artifactId>displaytag</artifactId>
+      <version>1.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>

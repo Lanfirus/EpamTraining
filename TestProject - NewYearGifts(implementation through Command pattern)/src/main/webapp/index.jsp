@@ -1,6 +1,24 @@
-<!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:choose>
+
+    <c:when test = "${not empty sessionScope.language}">
+        <c:set var="language" value="${sessionScope.language}" />
+    </c:when>
+
+    <c:otherwise>
+        <c:set var="language" value="en" scope="session"/>
+    </c:otherwise>
+
+</c:choose>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
+
+<!DOCTYPE html>
+<html lang="${language}">
 <html>
 <head>
     <meta charset="utf-8">
@@ -160,35 +178,42 @@ input:required, textarea:required {
 </head>
 
 <body>
-<form class="contact_form" action="register" method="post" name="contact_form">
+<form action="${pageContext.request.contextPath}/app/language" method="post">
+            <select name="language">
+                <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+                <option value="ua" ${language == 'ua' ? 'selected' : ''}>Українська</option>
+            </select>
+            <button class="submit" type="submit"><fmt:message key="index.select" /></button>
+</form>
+
+
+<form class="contact_form">
 
 <c:if test="${not empty sessionScope.full_name}">
         <h1><span>${full_name},</span></h1>
 </c:if>
-<h1>Welcome to our New Year Sweety Gift shop!</h1>
+<h1><fmt:message key="index.initialGreetings" /></h1>
 
 
 
-<p>&nbsp;</p>
-<h3>In this place you can find all kinds of sweeties, ones carefully choosen for you and organized in 3 sizes of gift boxes and ones you could select by yourself getting trully unique sweet gift for ones you love!</h3>
-<h3>To get full set of our services we do recommend you to register on our site.</h3>
-<h3>In you are already our very important client, we would love you to login, so we'll be able to satisfy all your sweet needs.</h3>
-<h3>In any case, we glad to see you on our site. You are welcome to look through our prepared and custom variants of sweet gifts.</h3>
-<h3>All respective links you will find just below this text at the end of this page.</h3>
+<br>
+<h3><fmt:message key="index.mainText" /></h3>
 
 <p>&nbsp;</p>
 
 <c:if test="${empty sessionScope.full_name}">
-<h2><a href = "${pageContext.request.contextPath}/app/registration_form"> Registration on our site</a></h2>
+<h2><a href = "${pageContext.request.contextPath}/app/registration_form"><fmt:message key="index.registration" /></a></h2>
 <p>&nbsp;</p>
-<h2><a href = "${pageContext.request.contextPath}/app/login_form"> Login to get full expirience</a></h2>
+<h2><a href = "${pageContext.request.contextPath}/app/login_form"><fmt:message key="index.login" /></a></h2>
 </c:if>
 
 <c:if test="${not empty sessionScope.full_name}">
-        <h2><a href = "${pageContext.request.contextPath}/app/logout"><span>Logout</span></a></h2>
+        <h2><a href = "${pageContext.request.contextPath}/app/logout"><span><fmt:message key="index.logout" /></span></a></h2>
         <p></p>
-        <h2><a href = "${pageContext.request.contextPath}/app/login">Continue to see our great offers</a></h2>
+        <h2><a href = "${pageContext.request.contextPath}/app/login"><fmt:message key="index.productsPage" /></a></h2>
 </c:if>
+<br>
+<br>
 
 
 </form>

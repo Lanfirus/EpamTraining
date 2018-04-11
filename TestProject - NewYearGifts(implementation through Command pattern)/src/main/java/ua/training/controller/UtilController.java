@@ -1,7 +1,8 @@
 package ua.training.controller;
 
-import ua.training.dao.NotUniqueLoginException;
-import ua.training.dao.SQLInteraction;
+import ua.training.controller.exceptions.NotUniqueLoginException;
+import ua.training.controller.dao.SQLInteraction;
+import ua.training.controller.exceptions.InappropriateBulkOrderException;
 import ua.training.model.User;
 
 import java.sql.SQLException;
@@ -50,12 +51,7 @@ public class UtilController {
      * @return
      */
     public boolean matchInputWithRegexp(String input, String regexp) {
-        if (Pattern.matches(regexp, input)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return Pattern.matches(regexp, input);
     }
 
     /**
@@ -82,7 +78,7 @@ public class UtilController {
      * @param orderData
      * @return
      */
-    public void onRecievingOrderDataFromWeb(Map<String, String> orderData) throws SQLException, InappropriateBulkOrderException{
+    public void onRecievingOrderDataFromWeb(Map<String, String> orderData) throws SQLException, InappropriateBulkOrderException {
         if(checkOrderDataForCorrectness(orderData)) {
             sqlInteraction.insertOrderRecord(orderData);
         }

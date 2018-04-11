@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -163,83 +167,66 @@ input:required, textarea:required {
 
     <ul>
         <li>
-            <h2>Registration form</h2>
-            <span class="required_notification">* Denotes Required Field</span>
+            <h2><fmt:message key="registration.formName" /></h2>
+            <span class="required_notification"><fmt:message key="registration.mandatoryFields" /></span>
         </li>
 
         <li>
-            <label for="name">Name:</label>
-            <input type="text" name="name" placeholder="Ivan" required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"/>
-            <span class="form_hint">Please, enter Name. It should begin from capital letter and have at least one letter.
-                                    Allowed characters: Latin alphabet and special characters [- ']. Name can't begin from special
-                                    character. It also can't end on special character or capital letter. Name can't have two or more
-                                    consecutive special characters or capital letters.</span>
+            <label for="name"><fmt:message key="registration.name" />:</label>
+            <input type="text" name="name" placeholder="<fmt:message key="registration.namePlaceholder" />" required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"/>
+            <span class="form_hint"><fmt:message key="registration.nameRegexp" /></span>
         </li>
 
         <li>
-                    <label for="surname">Surname:</label>
-                    <input type="text" name="surname" placeholder="Ivanov" required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"/>
-                    <span class="form_hint">Please, enter Surname. It should begin from capital letter and have at least one letter.
-                                            Allowed characters: Latin alphabet and special characters [- ']. Surname can't begin from special
-                                            character. It also can't end on special character or capital letter. Surname can't have two or more
-                                            consecutive special characters or capital letters.</span>
+                    <label for="surname"><fmt:message key="registration.surname" />:</label>
+                    <input type="text" name="surname" placeholder="<fmt:message key="registration.surnamePlaceholder" />" required pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+$"/>
+                    <span class="form_hint"><fmt:message key="registration.surnameRegexp" /></span>
                 </li>
 
         <li>
-            <label for="patronymic">Patronymic:</label>
-            <input type="text" name="patronymic" placeholder="Ivanovich" pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+|$"/>
-            <span class="form_hint">Please, enter Patronymic. It should begin from capital letter and have at least one letter.
-                                    Allowed characters: Latin alphabet and special characters [- ']. Surname can't begin from special
-                                    character. It also can't end on special character or capital letter. Surname can't have two or more
-                                    consecutive special characters or capital letters. There could be no patronymic.</span>
+            <label for="patronymic"><fmt:message key="registration.patronymic" />:</label>
+            <input type="text" name="patronymic" placeholder="<fmt:message key="registration.patronymicPlaceholder" />" pattern="^(?!.*?([ `'\-]{2,}|[A-Z]{2,}|[A-Z `'\-]$))[A-Z]{1}[a-z\- '`A-Z]+|$"/>
+            <span class="form_hint"><fmt:message key="registration.patronymicRegexp" /></span>
         </li>
 
         <li>
-            <label for="login">Login:</label>
-            <input type="text" name="login" placeholder="login" required pattern=".+"/>
-            <span class="form_hint">Please, enter login. It should have at least one symbol. All symbols are allowed.</span>
+            <label for="login"><fmt:message key="registration.login" />:</label>
+            <input type="text" name="login" placeholder="<fmt:message key="registration.loginPlaceholder" />" required pattern=".+"/>
+            <span class="form_hint"><fmt:message key="registration.loginRegexp" /></span>
         </li>
 
         <li>
-            <label for="password">Password:</label>
-            <input type="password" name="password" placeholder="password" required pattern=".+"/>
-            <span class="form_hint">Please, enter password. It should have at least one symbol. All symbols are allowed.</span>
+            <label for="password"><fmt:message key="registration.password" />:</label>
+            <input type="password" name="password" placeholder="<fmt:message key="registration.passwordPlaceholder" />" required pattern=".+"/>
+            <span class="form_hint"><fmt:message key="registration.passwordRegexp" /></span>
         </li>
 
         <li>
-            <label for="comment">Comment:</label>
-            <input type="text" name="comment" placeholder="Any comment" pattern=".*"/>
-            <span class="form_hint">Please, enter comment. It's optional'. All symbols are allowed.</span>
+            <label for="comment"><fmt:message key="registration.name" />:</label>
+            <input type="text" name="comment" placeholder="<fmt:message key="registration.commentPlaceholder" />" pattern=".*"/>
+            <span class="form_hint"><fmt:message key="registration.commentRegexp" /></span>
         </li>
 
         <li>
-            <label for="homephonenumber">Home phone number:</label>
+            <label for="homephonenumber"><fmt:message key="registration.homePhoneNumber" />:</label>
             <input type="text" name="homephonenumber" placeholder="380441234567" pattern="^(?:380\d{9}|\d{10,12})|$"/>
-            <span class="form_hint">Please, enter home phone number. It should be a set from 10, 11 or 12 digits.
-                                    For example, 380441234567. It's optional.'</span>
+            <span class="form_hint"><fmt:message key="registration.homePhoneNumberRegexp" /></span>
         </li>
 
         <li>
-            <label for="mobilephonenumber">Mobile phone number:</label>
+            <label for="mobilephonenumber"><fmt:message key="registration.mobilePhoneNumber" />:</label>
             <input type="text" name="mobilephonenumber" placeholder="380501234567" required pattern="^(?:380\d{9}|\d{10,12})$"/>
-            <span class="form_hint">Please, enter mobile phone number. It should be a set from 10, 11 or 12 digits.
-                                    For example, 380501234567.</span>
+            <span class="form_hint"><fmt:message key="registration.mobilePhoneNumberRegexp" /></span>
         </li>
 
         <li>
-            <label for="email">Email:</label>
+            <label for="email"><fmt:message key="registration.email" />:</label>
             <input type="text" name="email" placeholder="email@email.com" required pattern="^(?!.*?[._\-]{2,})[a-zA-Z0-9]{1}[a-zA-Z0-9._\-]{0,62}[a-zA-Z0-9]?@{1}(?!.{256,})([a-zA-Z0-9]{1}[a-zA-Z0-9._\-]{1,254}[a-zA-Z0-9]{1}|\[{1}\d{1,3}\.{1}\d{1,3}\.{1}\d{1,3}\.{1}\d{1,3}\]{1})$"/>
-            <span class="form_hint">Please, enter email. First part (before @) could have length from 1 to 64 characters.
-                                    It can consist of Latin alphabet's characters and special characters [._-]. This part can't begin or end
-                                    from special character. Two or more consecutive special characters are not allowed.
-                                    Second part (after @) could have length from 3 to 254 characters, consist of characters of Latin alphabet
-                                    digits and special characters [.-]. This part can't begin or end from special character
-                                    Two or more consecutive special characters are not allowed.
-                                    It's allowed to use IP-address as a second part of email. For example, [128.0.0.1]</span>
+            <span class="form_hint"><fmt:message key="registration.emailRegexp" /></span>
         </li>
 
         <li>
-            <button class="submit" type="submit">Submit Form</button>
+            <button class="submit" type="submit"><fmt:message key="registration.submit" /></button>
         </li>
 
     </ul>

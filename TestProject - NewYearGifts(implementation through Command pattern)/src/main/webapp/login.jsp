@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -163,24 +166,24 @@ input:required, textarea:required {
 
     <ul>
         <li>
-            <h2>Login form</h2>
+            <h2><fmt:message key="login.formName" /></h2>
         </li>
 
         <li>
-            <label for="login">Login:</label>
-            <input type="text" name="login" placeholder="login" required pattern=".+"/>
-            <span class="form_hint">Please, enter login. It should have at least one symbol. All symbols are allowed.</span>
+            <label for="login"><fmt:message key="login.login" />:</label>
+            <input type="text" name="login" placeholder="<fmt:message key="login.loginPlaceholder" />" required pattern=".+"/>
+            <span class="form_hint"><fmt:message key="login.loginRegexp" /></span>
         </li>
 
         <li>
-            <label for="password">Password:</label>
-            <input type="password" name="password" placeholder="password" required pattern=".+"/>
-            <span class="form_hint">Please, enter password. It should have at least one symbol. All symbols are allowed.</span>
+            <label for="password"><fmt:message key="login.password" />:</label>
+            <input type="password" name="password" placeholder="<fmt:message key="login.passwordPlaceholder" />" required pattern=".+"/>
+            <span class="form_hint"><fmt:message key="login.passwordRegexp" /></span>
         </li>
 
 
         <li>
-            <button class="submit" type="submit">Submit Form</button>
+            <button class="submit" type="submit"><fmt:message key="login.submit" /></button>
         </li>
 
     </ul>

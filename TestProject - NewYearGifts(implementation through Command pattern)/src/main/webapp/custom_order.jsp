@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -133,11 +134,36 @@
         float:right;
        }
 
+table {
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+th {
+    cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+
+th form {
+    display : table-cell;
+    vertical-align: middle;
+    margin : 0;
+    padding : 0;
+}
     </style>
         <link rel="stylesheet" media="screen" href="styles.css" >
     </head>
 
-    <body>
+    <body onload="getTotalWeightAndDisplayIt()">
 
     <script>
 
@@ -213,7 +239,8 @@ function getBoxWeight(){
 
     </script>
 
-    <form class="custom_order_form" action="custom_order_process" method="post" name="custom_order_form">
+
+    <form class="custom_order_form" action="custom_order_processing" method="post" name="custom_order_form">
 
 <h1>Welcome to our New Year Sweety Gift shop!</h1>
 
@@ -239,12 +266,13 @@ function getBoxWeight(){
         Please, select box type you would like to have.</h3>
         <br>
         <select name="boxType" id="box" onchange = "getTotalWeightAndDisplayIt()">
-          <option value="1">Small</option>
-          <option value="2">Medium</option>
-          <option value="3">Big</option>
+          <option value="1" <c:if test="${sessionScope.boxType == 1}">selected="selected"</c:if>>Small</option>
+          <option value="2" <c:if test="${sessionScope.boxType == 2}">selected="selected"</c:if>>Medium</option>
+          <option value="3" <c:if test="${sessionScope.boxType == 3}">selected="selected"</c:if>>Big</option>
         </select>
 <br>
 <br>
+
 <br>
 <h3><img src="${pageContext.request.contextPath}/images/sweeties.jpg" class="leftimg" align="top"
     alt="Medium gift box" width="180" height="180" />Now lets choose what will be inside our gift box.
@@ -256,29 +284,130 @@ function getBoxWeight(){
         <li>Waffle that weights 18  gramms and consists of sugar on 20%</li>
         <li>Marshmallow that weights 9  gramms and consists of sugar on 30%</li>
             </h3>
+
+<div>
+            <display:table name="sessionScope.sweeties"
+                           sort="list" uid="one" requestURI = "">
+                <display:column property="name" title="Name"
+                                sortable="true" headerClass="sortable" />
+                <display:column property="weight" title="Weight"
+                                sortable="true" headerClass="sortable" />
+                <display:column property="sugarValue" title="Sugar %"
+                                sortable="true" headerClass="sortable" />
+            </display:table>
+        </div>
+<br>
+<label>% of sugar in items "from-to":</label>
+        <input type="number" min=0 max=100 name="sugarFrom" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+            value="${sessionScope.sugarFrom}" />
+
+        <input type="number" min=0 max=100 name="sugarTo" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+            value="${sessionScope.sugarTo}" />
+
+<button class="submit" type="submit" onclick='this.form.action="sugar_filter";'>Sort</button>
+
+<br>
+<br>
+<br>
+
+<br>
     <label>Number of Caramel candies:</label>
-        <input type="number" min=0 max=999 value=0 name="caramel_qty" id="caramel" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-        onchange = "getTotalWeightAndDisplayIt()"/>
+        <input type="number" min=0 max=999 name="caramel_qty" id="caramel" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+            onchange = "getTotalWeightAndDisplayIt()"
+            <c:choose>
+
+                 <c:when test = "${not empty sessionScope.caramelQty}">
+                    value="${sessionScope.caramelQty}"
+                 </c:when>
+
+                 <c:otherwise>
+                    value=0
+                 </c:otherwise>
+
+            </c:choose>
+         />
+
             <br>
    <label>Number of Chocolate candies</label>
-        <input type="number" min=0 max=999 value=0 name="chocolate_qty" id="chocolate" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-            onchange = "getTotalWeightAndDisplayIt()"/>
+        <input type="number" min=0 max=999 name="chocolate_qty" id="chocolate" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+            onchange = "getTotalWeightAndDisplayIt()"
+             <c:choose>
+
+                <c:when test = "${not empty sessionScope.chocolateQty}">
+                    value="${sessionScope.chocolateQty}"
+                </c:when>
+
+                <c:otherwise>
+                    value=0
+                </c:otherwise>
+
+              </c:choose>
+        />
             <br>
    <label>Number of Jelly candies</label>
-           <input type="number" min=0 max=999 value=0 name="jelly_qty" id="jelly" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-               onchange = "getTotalWeightAndDisplayIt()"/>
+           <input type="number" min=0 max=999 name="jelly_qty" id="jelly" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+               onchange = "getTotalWeightAndDisplayIt()"
+                <c:choose>
+
+                    <c:when test = "${not empty sessionScope.jellyQty}">
+                        value="${sessionScope.jellyQty}"
+                    </c:when>
+
+                    <c:otherwise>
+                        value=0
+                    </c:otherwise>
+
+                </c:choose>
+           />
             <br>
    <label>Number of Lollipop candies</label>
-           <input type="number" min=0 max=999 value=0 name="lollipop_qty" id="lollipop" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-               onchange = "getTotalWeightAndDisplayIt()"/>
+           <input type="number" min=0 max=999 name="lollipop_qty" id="lollipop" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+               onchange = "getTotalWeightAndDisplayIt()"
+               <c:choose>
+
+                    <c:when test = "${not empty sessionScope.lollipopQty}">
+                        value="${sessionScope.lollipopQty}"
+                    </c:when>
+
+                    <c:otherwise>
+                        value=0
+                    </c:otherwise>
+
+               </c:choose>
+           />
             <br>
    <label>Number of Waffles</label>
-           <input type="number" min=0 max=999 value=0 name="waffle_qty" id="waffle" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-               onchange = "getTotalWeightAndDisplayIt()"/>
+           <input type="number" min=0 max=999 name="waffle_qty" id="waffle" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+               onchange = "getTotalWeightAndDisplayIt()"
+               <c:choose>
+
+                    <c:when test = "${not empty sessionScope.waffleQty}">
+                        value="${sessionScope.waffleQty}"
+                    </c:when>
+
+                    <c:otherwise>
+                        value=0
+                    </c:otherwise>
+
+               </c:choose>
+           />
             <br>
    <label>Number of Marshmallows</label>
-           <input type="number" min=0 max=999 value=0 name="marshmallow_qty" id="marshmallow" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
-               onchange = "getTotalWeightAndDisplayIt()"/>
+           <input type="number" min=0 max=999 name="marshmallow_qty" id="marshmallow" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+               onchange = "getTotalWeightAndDisplayIt()"
+               <c:choose>
+
+                    <c:when test = "${not empty sessionScope.marshmallowQty}">
+                        value="${sessionScope.marshmallowQty}"
+                    </c:when>
+
+                    <c:otherwise>
+                        value=0
+                    </c:otherwise>
+
+               </c:choose>
+           />
+
         <b><p id="weight">Total sweeties weight: 0 gramms</p></b>
         <b><p id="box_total_weight">You have selected box that can hold up to: 300 gramms</p></b>
 
@@ -293,7 +422,19 @@ function getBoxWeight(){
         Please, select required quantity of gifts</h3>
         <br>
         <label>Number of Custom gifts to order:</label>
-                <input type="number" min=1 max=999 value=1 name="custom_order_qty" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"/>
+                <input type="number" min=1 max=999 name="custom_order_qty" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+                    <c:choose>
+
+                        <c:when test = "${not empty sessionScope.customOrderQty}">
+                            value="${sessionScope.customOrderQty}"
+                        </c:when>
+
+                        <c:otherwise>
+                            value=1
+                        </c:otherwise>
+
+                    </c:choose>
+                />
         <br>
 
 <button class="submit" type="submit" onclick="return checkFunction();">Submit Order</button>
@@ -304,5 +445,6 @@ function getBoxWeight(){
 <h2><a href = "${pageContext.request.contextPath}/app/products">Go to see our premade offers</a></h2>
 <h2><a href = "${pageContext.request.contextPath}/app/return_to_main">Go to main page</a></h2>
 
+</form>
 </body>
 </html>
