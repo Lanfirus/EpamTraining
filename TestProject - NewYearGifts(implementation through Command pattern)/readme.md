@@ -1,0 +1,1 @@
+I should implement New Year Sweety Gift's shop where customer should be able to choose from either several premade gifts or from custom made gifts. Custom gift creation should include sorting and filtering functionality.
