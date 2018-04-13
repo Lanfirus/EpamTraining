@@ -14,7 +14,7 @@ public class SQLInteraction {
     private Connection connection;
     private static ResourceBundle bundle = ResourceBundle.getBundle(Constants.DB_PROPERTY_NAME);
 
-
+    private SQLInteraction(){}
 
 
     public static String getUrlDefault() {
