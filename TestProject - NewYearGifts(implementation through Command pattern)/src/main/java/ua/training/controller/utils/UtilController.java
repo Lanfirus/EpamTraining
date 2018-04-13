@@ -1,10 +1,17 @@
-package ua.training.controller;
+package ua.training.controller.utils;
 
-import ua.training.controller.exceptions.NotUniqueLoginException;
-import ua.training.controller.dao.SQLInteraction;
+
+
+import ua.training.constants.Constants;
 import ua.training.controller.exceptions.InappropriateBulkOrderException;
-import ua.training.model.User;
+import ua.training.model.dao.impl.UserDAO;
+import ua.training.model.entity.User;
 
+import ua.training.model.exception.NotUniqueLoginException;
+import ua.training.model.utils.SQLInteraction;
+
+
+import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -67,8 +74,15 @@ public class UtilController {
      * Sends checked data to user to be put into DB.
      * @param userData
      */
-    public boolean sendReadyDataToDB(Map<String, String> userData) throws NotUniqueLoginException{
-        sqlInteraction.insertUserRecord(userData);
+    public boolean sendReadyRegistrationDataToDB(Map<String, String> userData) throws NotUniqueLoginException {
+        UserDAO dao = new UserDAO();
+        dao.create(userData);
+        return true;
+    }
+
+    public boolean sendReadyUpdateDataToDB(Map<String, String> userData) throws NotUniqueLoginException {
+        UserDAO dao = new UserDAO();
+        dao.update(new User(userData));
         return true;
     }
 
@@ -90,7 +104,17 @@ public class UtilController {
     public boolean onRecievingUserRegistrationDataFromWeb(User user) throws NotUniqueLoginException{
         Map<String, String> userData = user.getUserData();
         if (checkDataFromWebForCorrectness(userData)) {
-            return sendReadyDataToDB(userData);
+            return sendReadyRegistrationDataToDB(userData);
+        }
+        else {
+            throw new RuntimeException("Something happened during userRegistrationData registration data check");
+        }
+    }
+
+    public boolean onRecievingUserUpdateDataFromWeb(User user) throws NotUniqueLoginException{
+        Map<String, String> userData = user.getUserData();
+        if (checkDataFromWebForCorrectness(userData)) {
+            return sendReadyUpdateDataToDB(userData);
         }
         else {
             throw new RuntimeException("Something happened during userRegistrationData registration data check");
@@ -150,4 +174,43 @@ public class UtilController {
         }
         return check;
     }
+
+    public void setUserEnteredDataBackToForm(HttpServletRequest request, User user){
+        request.setAttribute(Constants.NAME, user.getName());
+        request.setAttribute(Constants.SURNAME, user.getSurame());
+        request.setAttribute(Constants.PATRONYMIC, user.getPatronymic() == null ? "" : user.getPatronymic());
+        request.setAttribute(Constants.LOGIN, user.getLogin());
+//        request.setAttribute("password", "");
+        request.setAttribute(Constants.COMMENT, user.getComment() == null ? "" : user.getComment());
+        request.setAttribute(Constants.HOME_PHONE_NUMBER, user.getHomePhoneNumber() == null ? "" : user.getHomePhoneNumber());
+        request.setAttribute(Constants.MOBILE_PHONE_NUMBER, user.getMobilePhoneNumber());
+        request.setAttribute(Constants.EMAIL, user.getEmail());
+    }
+
+    public Map<String, String> setUserData(HttpServletRequest request){
+        Map<String, String> preparedUserData = new LinkedHashMap<>();
+        preparedUserData.put(Constants.NAME, request.getParameter("name"));
+        preparedUserData.put(Constants.SURNAME, request.getParameter("surname"));
+        preparedUserData.put(Constants.PATRONYMIC, request.getParameter("patronymic"));
+        preparedUserData.put(Constants.LOGIN, request.getParameter("login"));
+        preparedUserData.put(Constants.PASSWORD, request.getParameter("password"));
+        preparedUserData.put(Constants.COMMENT, request.getParameter("comment"));
+        preparedUserData.put(Constants.HOME_PHONE_NUMBER, request.getParameter("homephonenumber"));
+        preparedUserData.put(Constants.MOBILE_PHONE_NUMBER, request.getParameter("mobilephonenumber"));
+        preparedUserData.put(Constants.EMAIL, request.getParameter("email"));
+        return preparedUserData;
+    }
+
+    public User getUserFromDBByLogin(String login){
+        UserDAO dao = new UserDAO();
+        User user = new User(dao.findByLogin(login));
+        return user;
+    }
+
+    public boolean deleteUser(String login, String password){
+        UserDAO dao = new UserDAO();
+        dao.delete(login, password);
+        return true;
+    }
+
 }

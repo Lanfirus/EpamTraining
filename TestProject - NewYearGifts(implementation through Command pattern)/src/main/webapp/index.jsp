@@ -199,18 +199,20 @@ input:required, textarea:required {
 <br>
 <h3><fmt:message key="index.mainText" /></h3>
 
-<p>&nbsp;</p>
+<br>
 
 <c:if test="${empty sessionScope.full_name}">
 <h2><a href = "${pageContext.request.contextPath}/app/registration_form"><fmt:message key="index.registration" /></a></h2>
-<p>&nbsp;</p>
+<br>
 <h2><a href = "${pageContext.request.contextPath}/app/login_form"><fmt:message key="index.login" /></a></h2>
 </c:if>
 
 <c:if test="${not empty sessionScope.full_name}">
         <h2><a href = "${pageContext.request.contextPath}/app/logout"><span><fmt:message key="index.logout" /></span></a></h2>
-        <p></p>
+        <br>
         <h2><a href = "${pageContext.request.contextPath}/app/login"><fmt:message key="index.productsPage" /></a></h2>
+        <br>
+        <h2><a href = "${pageContext.request.contextPath}/app/change"><fmt:message key="index.changePage" /></a></h2>
 </c:if>
 <br>
 <br>

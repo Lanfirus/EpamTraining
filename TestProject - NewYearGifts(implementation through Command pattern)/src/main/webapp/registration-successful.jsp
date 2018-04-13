@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
 <html>
 
 <head>
@@ -158,7 +162,7 @@ button.submit:active {
 
     <ul>
         <li>
-            <h2>Registration successful</h2>
+            <h2><fmt:message key="registration.successful" /></h2>
         </li>
 
     </ul>

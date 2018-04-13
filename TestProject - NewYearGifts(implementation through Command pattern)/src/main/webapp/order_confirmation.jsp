@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -161,25 +165,27 @@ input:required, textarea:required {
 <body>
 <form class="order_confirmation_form" action="order_confirmation" method="post" name="order_confirmation_form">
 
-<h2>Order confirmation</h2>
+<h2><fmt:message key="order.confirmation.title" /></h2>
 
-<h3>${full_name}, we are very grateful that you have selected some goods from our site.
-You have chosen  the following items:</h3>
-<h3>Number of small boxes : ${quantity_to_order_small_boxes}</h3>
-<p></p>
-<h3>Number of medium boxes : ${quantity_to_order_medium_boxes}</h3>
-<p></p>
-<h3>Number of big boxes : ${quantity_to_order_big_boxes}</h3>
-<p></p>
-<p></p>
-<h3>Is everything OK? In this case, please, submit your order for us to proceed with it.</h3>
-<p></p>
-<h3>Or maybe you would like to add some more our great premade or custom New Year Sweet Gifts?
-In this case we would love you to continue exploration of our site given the link below.</h3>
+<h3>${full_name}, <fmt:message key="order.confirmation.startMessage" /> :</h3>
+<h3><fmt:message key="order.confirmation.smallBoxesNumber" /> : ${quantity_to_order_small_boxes}</h3>
+<br>
+<h3><fmt:message key="order.confirmation.mediumBoxesNumber" /> : ${quantity_to_order_medium_boxes}</h3>
+<br>
+<h3><fmt:message key="order.confirmation.bigBoxesNumber" /> : ${quantity_to_order_big_boxes}</h3>
+<br>
+<br>
+<h3><fmt:message key="order.confirmation.endMessage" /></h3>
 
-<button class="submit" type="submit">Confirm Order</button>
-<p></p>
-<h3><a href = "${pageContext.request.contextPath}/app/products"><span>Look more for our products</span></a></h3>
+<button class="submit" type="submit"><fmt:message key="order.confirmation.confirm" /></button>
+<br>
+<h3>
+    <a href = "${pageContext.request.contextPath}/app/products">
+        <span>
+            <fmt:message key="general.link1" />
+        </span>
+    </a>
+</h3>
 
 
 </form>

@@ -1,4 +1,4 @@
-package ua.training.model;
+package ua.training.model.entity;
 
 public enum Sweety {
     CARAMEL_CANDY (12, 80, "Caramel Candy"),

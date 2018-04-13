@@ -1,4 +1,4 @@
-package ua.training.controller.exceptions;
+package ua.training.model.exception;
 
 /**
  * @author Dudchenko Andrei

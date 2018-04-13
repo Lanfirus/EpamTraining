@@ -1,9 +1,8 @@
 package ua.training.controller.servlet;
 
 import ua.training.controller.command.*;
-import ua.training.controller.UtilController;
-import ua.training.controller.dao.SQLInteraction;
-import ua.training.model.Sweety;
+import ua.training.controller.utils.UtilController;
+import ua.training.model.utils.SQLInteraction;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +33,10 @@ public class Servlet extends HttpServlet {
             commands.put("custom_order", new NavigateToCustomOrderPage());
             commands.put("sugar_filter", new SugarFilter());
             commands.put("custom_order_processing", new CustomOrderProcessing());
-           commands.put("language", new LanguageChange());
+            commands.put("language", new LanguageChange());
+            commands.put("change", new ChangeForm());
+            commands.put("update", new Update());
+            commands.put("delete", new Delete());
         }
         utilControllerInitialization();
     }
@@ -62,7 +64,8 @@ public class Servlet extends HttpServlet {
     }
 
     private void utilControllerInitialization(){
-        SQLInteraction sqlInteraction = new SQLInteraction();
+        SQLInteraction sqlInteraction = SQLInteraction.getInstance();
+        System.out.println("got instance");
         utilController = new UtilController(sqlInteraction);
         try {
             utilController.deInitializeDB();

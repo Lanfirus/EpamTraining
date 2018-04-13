@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="textOnPages"/>
 <html>
 
 <head>
@@ -155,17 +159,20 @@ button.submit:active {
 </head>
 
 <body>
-<h3>${full_name}, we are very glad that you are so interested in our products that you have ordered more than 10000 gifts.
-<p></p>
-It's a pity, but we can't accept such big orders through this site.
-<p></p>
-Our bulk orders specialists will contact with you in the nearesr time to settle all details.</h3>
-<p></p>
-<h3>We encourage you to look through our products once again and maybe you will find something interesting there.</h3>
-<h3><p>Or maybe you would like to check our customizable offers?</p></h3>
-<p></p>
-<h3><a href = "${pageContext.request.contextPath}/app/products"><span>Look more for our premade products</span></a></h3>
-<p></p>
-<h3><a href = "${pageContext.request.contextPath}/app/customizable_products"><span>Get your own unique New Year Sweet Gift</span></a></h3>
+<h3>
+    ${full_name}, <fmt:message key="inapropriateBulkOrder.message" />
+    <br>
+    <a href = "${pageContext.request.contextPath}/app/products">
+        <span>
+            <fmt:message key="general.link1" />
+        </span>
+    </a>
+    <br>
+    <a href = "${pageContext.request.contextPath}/app/customizable_products">
+        <span>
+            <fmt:message key="general.link2" />
+        </span>
+    </a>
+</h3>
 </body>
 </html>

@@ -6,26 +6,24 @@ import ua.training.model.exception.NotUniqueLoginException;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @author Dudchenko Andrei
- */
-public class Registration implements Command {
+public class Update implements Command{
 
     @Override
     public String execute(HttpServletRequest request) {
         User user = new User(Servlet.getUtilController().setUserData(request));
-        return tryToAddUserRegistrationDataToDB(user, request);
+        return tryToUpdateUserRegistrationDataInDB(user, request);
     }
 
-    private String tryToAddUserRegistrationDataToDB(User user, HttpServletRequest request){
+    private String tryToUpdateUserRegistrationDataInDB(User user, HttpServletRequest request){
         try{
-            Servlet.getUtilController().onRecievingUserRegistrationDataFromWeb(user);
-            return "/registration-successful.jsp";
+            Servlet.getUtilController().onRecievingUserUpdateDataFromWeb(user);
+            return "/update_successful.jsp";
         }
         catch (NotUniqueLoginException e) {
             System.err.println(e.getMessage());
             Servlet.getUtilController().setUserEnteredDataBackToForm(request, user);
             setProblemWithLoginAttribute(request);
+            setViewDataAttribute(request);
             return "/registration.jsp";
         }
         catch(Exception e) {
@@ -35,5 +33,9 @@ public class Registration implements Command {
 
     private void setProblemWithLoginAttribute(HttpServletRequest request){
         request.setAttribute("loginProblem", true);
+    }
+
+    private void setViewDataAttribute(HttpServletRequest request){
+        request.setAttribute("userView", true);
     }
 }

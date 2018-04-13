@@ -1,6 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.controller.UtilController;
+import ua.training.controller.utils.UtilController;
 import ua.training.controller.servlet.Servlet;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,13 +1,11 @@
 package ua.training.controller.command;
 
-import ua.training.model.Sweety;
+import ua.training.model.entity.Sweety;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NavigateToCustomOrderPage implements Command{
 

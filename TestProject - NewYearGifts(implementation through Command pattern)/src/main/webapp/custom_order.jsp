@@ -2,6 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="display" uri="http://displaytag.sf.net" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${sessionScope.language}" />
+<fmt:setBundle basename="productRelated"/>
 <html>
 <head>
     <meta charset="utf-8">
@@ -136,7 +140,7 @@
 
 table {
     border-spacing: 0;
-    width: 100%;
+    width: 40%;
     border: 1px solid #ddd;
 }
 
@@ -231,7 +235,7 @@ th form {
     }
     }
 
-function getBoxWeight(){
+    function getBoxWeight(){
         var boxWeight = 0;
         boxWeight = document.getElementById('box').value * 300;
         return boxWeight;
@@ -242,48 +246,53 @@ function getBoxWeight(){
 
     <form class="custom_order_form" action="custom_order_processing" method="post" name="custom_order_form">
 
-<h1>Welcome to our New Year Sweety Gift shop!</h1>
+<h1><fmt:message key="product.title" /></h1>
 
 <c:if test="${sessionContext.role == 'admin'}">
         <h2><a href = "${pageContext.request.contextPath}/app/admin_form"><span class="required_notification">
-        Welcome to admin menu</a></h2> </span>
+        <fmt:message key="product.adminMenu" /></a></h2> </span>
 </c:if>
 <p></p>
 <c:if test="${sessionScope.role != null}">
         <h2><a href = "${pageContext.request.contextPath}/app/logout"><span class="required_notification">
-        Logout here</a></h2> </span>
+        <fmt:message key="product.logout" /></a></h2> </span>
 </c:if>
 
 <br>
-<h3>Here you can make your own custom New Year Sweet Gift following our easy steps below.</h3>
+<h3><fmt:message key="custom.product.startMessage" /></h3>
 
     <h3><p><img src="${pageContext.request.contextPath}/images/small_gift_box.jpg" class="leftimg" align="top"
-        alt="Small gift box" width="180" height="180" />Lets start from choosing gift box. There are 3 possible types:
-        <li>Small box could weight up to 300 gramms.</li>
-        <li>Medium box could weight up to 600 gramms.</li>
-        <li>Big box could weight up to 900 gramms.</li>
+        alt="Small gift box" width="180" height="180" /><fmt:message key="custom.product.boxSelect" />
+        <li><fmt:message key="custom.product.smallBoxCapacity" /></li>
+        <li><fmt:message key="custom.product.mediumBoxCapacity" /></li>
+        <li><fmt:message key="custom.product.bigBoxCapacity" /></li>
         <br>
-        Please, select box type you would like to have.</h3>
+        <fmt:message key="custom.product.selectChoice" /></h3>
         <br>
         <select name="boxType" id="box" onchange = "getTotalWeightAndDisplayIt()">
-          <option value="1" <c:if test="${sessionScope.boxType == 1}">selected="selected"</c:if>>Small</option>
-          <option value="2" <c:if test="${sessionScope.boxType == 2}">selected="selected"</c:if>>Medium</option>
-          <option value="3" <c:if test="${sessionScope.boxType == 3}">selected="selected"</c:if>>Big</option>
+          <option value="1" <c:if test="${sessionScope.boxType == 1}">selected="selected"</c:if>>
+            <fmt:message key="custom.product.smallBox" /></option>
+          <option value="2" <c:if test="${sessionScope.boxType == 2}">selected="selected"</c:if>>
+            <fmt:message key="custom.product.mediumBox" /></option>
+          <option value="3" <c:if test="${sessionScope.boxType == 3}">selected="selected"</c:if>>
+            <fmt:message key="custom.product.bigBox" /></option>
         </select>
 <br>
 <br>
 
 <br>
-<h3><img src="${pageContext.request.contextPath}/images/sweeties.jpg" class="leftimg" align="top"
-    alt="Medium gift box" width="180" height="180" />Now lets choose what will be inside our gift box.
-    <p>There are the following possible sweeties:</p>
-        <li>Caramel candy that weights 12  gramms and consists of sugar on 80%</li>
-        <li>Chocolate candy that weights 13  gramms and consists of sugar on 60%</li>
-        <li>Jelly candy that weights 11  gramms and consists of sugar on 40%</li>
-        <li>Lollipop candy that weights 16  gramms and consists of sugar on 90%</li>
-        <li>Waffle that weights 18  gramms and consists of sugar on 20%</li>
-        <li>Marshmallow that weights 9  gramms and consists of sugar on 30%</li>
-            </h3>
+<h3>
+    <img src="${pageContext.request.contextPath}/images/sweeties.jpg" class="leftimg" align="top"
+        alt="Medium gift box" width="180" height="180" />
+        <fmt:message key="custom.product.itemsSelect" />
+        <br>
+        <li><fmt:message key="custom.product.caramel" /></li>
+        <li><fmt:message key="custom.product.chocolate" /></li>
+        <li><fmt:message key="custom.product.jelly" /></li>
+        <li><fmt:message key="custom.product.lollipop" /></li>
+        <li><fmt:message key="custom.product.waffle" /></li>
+        <li><fmt:message key="custom.product.marshmallow" /></li>
+</h3>
 
 <div>
             <display:table name="sessionScope.sweeties"
@@ -297,21 +306,22 @@ function getBoxWeight(){
             </display:table>
         </div>
 <br>
-<label>% of sugar in items "from-to":</label>
-        <input type="number" min=0 max=100 name="sugarFrom" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+<label><fmt:message key="custom.product.filtering" /></label>
+        <input type="number" min=0 max=100 name="sugarFrom" pattern="^(?![0-9]{4,})[0-9]{1,3}$"
             value="${sessionScope.sugarFrom}" />
 
-        <input type="number" min=0 max=100 name="sugarTo" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+        <input type="number" min=0 max=100 name="sugarTo" pattern="^(?![0-9]{4,})[0-9]{1,3}$"
             value="${sessionScope.sugarTo}" />
 
-<button class="submit" type="submit" onclick='this.form.action="sugar_filter";'>Sort</button>
+<button class="submit" type="submit" onclick='this.form.action="sugar_filter";'>
+    <fmt:message key="custom.product.sort" /></button>
 
 <br>
 <br>
 <br>
 
 <br>
-    <label>Number of Caramel candies:</label>
+    <label><fmt:message key="custom.product.caramelQty" /></label>
         <input type="number" min=0 max=999 name="caramel_qty" id="caramel" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
             onchange = "getTotalWeightAndDisplayIt()"
             <c:choose>
@@ -328,7 +338,7 @@ function getBoxWeight(){
          />
 
             <br>
-   <label>Number of Chocolate candies</label>
+   <label><fmt:message key="custom.product.chocolateQty" /></label>
         <input type="number" min=0 max=999 name="chocolate_qty" id="chocolate" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
             onchange = "getTotalWeightAndDisplayIt()"
              <c:choose>
@@ -344,7 +354,7 @@ function getBoxWeight(){
               </c:choose>
         />
             <br>
-   <label>Number of Jelly candies</label>
+   <label><fmt:message key="custom.product.jellyQty" /></label>
            <input type="number" min=0 max=999 name="jelly_qty" id="jelly" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
                onchange = "getTotalWeightAndDisplayIt()"
                 <c:choose>
@@ -360,7 +370,7 @@ function getBoxWeight(){
                 </c:choose>
            />
             <br>
-   <label>Number of Lollipop candies</label>
+   <label><fmt:message key="custom.product.lollipopQty" /></label>
            <input type="number" min=0 max=999 name="lollipop_qty" id="lollipop" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
                onchange = "getTotalWeightAndDisplayIt()"
                <c:choose>
@@ -376,7 +386,7 @@ function getBoxWeight(){
                </c:choose>
            />
             <br>
-   <label>Number of Waffles</label>
+   <label><fmt:message key="custom.product.waffleQty" /></label>
            <input type="number" min=0 max=999 name="waffle_qty" id="waffle" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
                onchange = "getTotalWeightAndDisplayIt()"
                <c:choose>
@@ -392,7 +402,7 @@ function getBoxWeight(){
                </c:choose>
            />
             <br>
-   <label>Number of Marshmallows</label>
+   <label><fmt:message key="custom.product.marshmallowQty" /></label>
            <input type="number" min=0 max=999 name="marshmallow_qty" id="marshmallow" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
                onchange = "getTotalWeightAndDisplayIt()"
                <c:choose>
@@ -408,21 +418,20 @@ function getBoxWeight(){
                </c:choose>
            />
 
-        <b><p id="weight">Total sweeties weight: 0 gramms</p></b>
-        <b><p id="box_total_weight">You have selected box that can hold up to: 300 gramms</p></b>
+        <b><p id="weight"><fmt:message key="custom.product.totalSweetiesWeight" /></p></b>
+        <b><p id="box_total_weight"><fmt:message key="custom.product.boxWeight" /></p></b>
 
 <br>
 <br>
 <br>
 
 <h3><p><img src="${pageContext.request.contextPath}/images/NYgifts.png" class="leftimg" align="top"
-        alt="Small gift box" width="180" height="180" />Now, all you need to do is to put number of such custom New Year
-        Gifts you would like to order.
+        alt="Small gift box" width="180" height="180" /><fmt:message key="custom.product.qtySelect" />
          <br>
-        Please, select required quantity of gifts</h3>
+        <fmt:message key="custom.product.qtySelectMessage" /></h3>
         <br>
-        <label>Number of Custom gifts to order:</label>
-                <input type="number" min=1 max=999 name="custom_order_qty" required pattern="^(?![0-9]{4,})[0-9]{1,3}$"
+        <label><fmt:message key="custom.product.qtySelectMessage2" /></label>
+                <input type="number" min=1 max=999 name="custom_order_qty" pattern="^(?![0-9]{4,})[0-9]{1,3}$"
                     <c:choose>
 
                         <c:when test = "${not empty sessionScope.customOrderQty}">
@@ -437,13 +446,21 @@ function getBoxWeight(){
                 />
         <br>
 
-<button class="submit" type="submit" onclick="return checkFunction();">Submit Order</button>
+<button class="submit" type="submit" onclick="return checkFunction();"><fmt:message key="product.submitOrder" /></button>
 <br>
 <br>
 <br>
 <br>
-<h2><a href = "${pageContext.request.contextPath}/app/products">Go to see our premade offers</a></h2>
-<h2><a href = "${pageContext.request.contextPath}/app/return_to_main">Go to main page</a></h2>
+<h2>
+    <a href = "${pageContext.request.contextPath}/app/products">
+        <fmt:message key="custom.product.linkToPremadeGifts" />
+    </a>
+</h2>
+<h2>
+    <a href = "${pageContext.request.contextPath}/app/return_to_main">
+        <fmt:message key="product.linkToMainPage" />
+    </a>
+</h2>
 
 </form>
 </body>

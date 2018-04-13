@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${sessionScope.language}" />
@@ -9,7 +8,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Order submission successful</title>
+    <title>Update successful</title>
     <style>
     *:focus {outline: none;}
 
@@ -159,20 +158,15 @@ button.submit:active {
 </head>
 
 <body>
-<h2>${full_name}, <fmt:message key="order.submissionComplete.message" /></h2>
-<br>
-<h3>
-    <a href = "${pageContext.request.contextPath}/app/products">
-        <span>
-            <fmt:message key="general.link1" />
-        </span>
-    </a>
-    <br>
-    <a href = "${pageContext.request.contextPath}/app/products">
-        <span>
-            <fmt:message key="general.link2" />
-        </span>
-    </a>
-</h3>
+<form class="contact_form" action="register" method="post" name="contact_form">
+
+    <ul>
+        <li>
+            <h2><fmt:message key="update.successful" /></h2>
+        </li>
+
+    </ul>
+
+</form>
 </body>
 </html>
