@@ -18,7 +18,7 @@ public class UserDAO implements GeneralDAO {
     private Connection connection = sqlInteraction.getCustomConnection();
 
     @Override
-    public void create(Map<String, String> map) throws NotUniqueLoginException{
+    public void create(Map<String, String> map){
         sqlInteraction.insertUserRecord(map);
     }
 
@@ -66,7 +66,8 @@ public class UserDAO implements GeneralDAO {
     }
 
     @Override
-    public void update(User user) {
+    public void update(Map<String, String> map) {
+        User user = new User(map);
         try (PreparedStatement statement = connection.prepareStatement(
                 "UPDATE users SET name = ? , surname = ? , patronymic = ? , login = ? , password = ? , comment = ? ," +
                         "homePhoneNumber = ? , mobilePhoneNumber = ? , email = ? WHERE login = ?")){

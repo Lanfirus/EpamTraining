@@ -143,13 +143,13 @@ public class SQLInteraction {
         System.out.println("done");
     }
 
-    public void insertUserRecord(Map<String, String> userData) throws NotUniqueLoginException {
+    public void insertUserRecord(Map<String, String> userData) {
         String preparedData = prepareValueForRecordInsertion(userData);
         try {
             insertUserRecord(Constants.INSERT_USER_RECORD_STATEMENT + preparedData);
         }
         catch(SQLException e){
-            throw new NotUniqueLoginException(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

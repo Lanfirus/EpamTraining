@@ -82,7 +82,7 @@ public class UtilController {
 
     public boolean sendReadyUpdateDataToDB(Map<String, String> userData) throws NotUniqueLoginException {
         UserDAO dao = new UserDAO();
-        dao.update(new User(userData));
+//        dao.update(new User(userData));
         return true;
     }
 
@@ -104,7 +104,13 @@ public class UtilController {
     public boolean onRecievingUserRegistrationDataFromWeb(User user) throws NotUniqueLoginException{
         Map<String, String> userData = user.getUserData();
         if (checkDataFromWebForCorrectness(userData)) {
-            return sendReadyRegistrationDataToDB(userData);
+            try{
+                sendReadyRegistrationDataToDB(userData);
+            }
+            catch(RuntimeException e){
+                throw new NotUniqueLoginException(e.getMessage());
+            }
+            return true;
         }
         else {
             throw new RuntimeException("Something happened during userRegistrationData registration data check");

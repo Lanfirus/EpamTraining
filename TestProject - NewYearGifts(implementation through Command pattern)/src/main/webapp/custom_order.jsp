@@ -297,11 +297,11 @@ th form {
 <div>
             <display:table name="sessionScope.sweeties"
                            sort="list" uid="one" requestURI = "">
-                <display:column property="name" title="Name"
+                <display:column property="name" titleKey="custom.product.sort.name"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="weight" title="Weight"
+                <display:column property="weight" title="custom.product.sort.weight"
                                 sortable="true" headerClass="sortable" />
-                <display:column property="sugarValue" title="Sugar %"
+                <display:column property="sugarValue" title="custom.product.sort.sugarValue"
                                 sortable="true" headerClass="sortable" />
             </display:table>
         </div>
